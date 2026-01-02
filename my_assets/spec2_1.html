@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>生物調査結果ダッシュボード</title>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  body { margin:0; font-family:sans-serif; background:#f7f7f7; }
+  header { padding:1rem 1.5rem; background:#fff; border-bottom:1px solid #ddd; }
+  main { padding:1rem 1.5rem; }
+  .layout { display:flex; gap:1rem; }
+  #map { height:450px; border-radius:8px; }
+  .panel { background:#fff; border-radius:8px; padding:1rem; flex:1; box-shadow:0 2px 8px rgba(0,0,0,.1); }
+
+  table { width:100%; border-collapse:collapse; font-size:0.8rem; }
+  th, td { padding:0.35rem; border-bottom:1px solid #eee; }
+  thead { background:#f0f0f0; }
+  .scroll { max-height:220px; overflow-y:auto; }
+  select, input[type=date] { padding:0.3rem; border:1px solid #ccc; border-radius:6px; }
+  .filters { display:flex; gap:1rem; margin:0.5rem 0; }
+  .badge { background:#2563eb; color:#fff; padding:0.1rem 0.4rem; border-radius:999px; font-size:0.7rem; }
+</style>
+
+</head>
+<body>
+
+<header>
+  <h1>生物調査結果ダッシュボード</h1>
+</header>
+
+<main>
+<div class="layout">
+
+  <!-- 地図 -->
+  <div class="panel" style="flex:1">
+    <h3>調査地点の周辺地図</h3>
+    <div id="map"></div>
+  </div>
+
+  <!-- テーブル＋グラフ -->
+  <div class="panel" style="flex:1.3">
+
+    <!-- 回次ドロップダウン -->
+    <div>
+      <label><strong>調査回次</strong></label><br>
+      <select id="roundSelect" style="margin:0.3rem 0;"></select>
+    </div>
+
+    <!-- フィルタ -->
+    <div class="filters">
+      <div>
+        <label>分類群</label><br>
+        <select id="taxonFilter"></select>
+      </div>
+      <div>
+        <label>開始日</label><br>
+        <input type="date" id="fromDate">
+      </div>
+      <div>
+        <label>終了日</label><br>
+        <input type="date" id="toDate">
+      </div>
+    </div>
+
+    <!-- テーブル -->
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>調査日</th><th>回次</th><th>分類群</th><th>種名</th>
+            <th>個体数</th><th>緯度</th><th>経度</th>
+          </tr>
+        </thead>
+        <tbody id="recordsBody"></tbody>
+      </table>
+    </div>
+
+    <!-- グラフ -->
+    <div style="margin-top:1rem;">
+      <canvas id="speciesChart" height="180"></canvas>
+    </div>
+
+  </div>
+</div>
+</main>
+
+<script>
+// ==============================
+// ▼ 地図中心座標
+// ==============================
+const MAP_CENTER = { lat: 35.1242699106782, lng: 136.81532664543258 };
+const MAP_ZOOM = 16;
+
+// ==============================
+// ▼ ダミーデータ生成（10 回）
+// ==============================
+const TAXA = ["鳥類", "昆虫", "植物"];
+const SPECIES = {
+  鳥類:["キジバト","シジュウカラ","メジロ","ハクセキレイ"],
+  昆虫:["オニヤンマ","アキアカネ","ヒメアカタテハ"],
+  植物:["ススキ","ヨモギ","オオバコ","アメリカセンダングサ"]
+};
+
+function generateDummyData(rounds=10, count=50) {
+  const data = [];
+  for (let i=1; i<=count; i++) {
+    const round = 1 + Math.floor(Math.random()*rounds);
+    const taxon = TAXA[Math.floor(Math.random()*TAXA.length)];
+    const species = SPECIES[taxon][Math.floor(Math.random()*SPECIES[taxon].length)];
+    const lat = MAP_CENTER.lat + (Math.random()-0.5)*0.0015;
+    const lng = MAP_CENTER.lng + (Math.random()-0.5)*0.006*(Math.random()-0.5);
+
+    const day = 1 + Math.floor(Math.random()*28);
+    const month = 4 + Math.floor(Math.random()*6);
+    const date = `2025-${String(month).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+
+    data.push({ id:i, round, date, taxon, species, count:1+Math.floor(Math.random()*10), lat, lng });
+  }
+  return data;
+}
+
+const surveyData = generateDummyData(10, 140);
+
+// ==============================
+// ▼ 地図
+// ==============================
+let map = L.map("map").setView([MAP_CENTER.lat, MAP_CENTER.lng], MAP_ZOOM);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+let markersLayer = L.layerGroup().addTo(map);
+
+// ==============================
+// ▼ フィルタ初期化
+// ==============================
+function initFilters() {
+  const taxonFilter = document.getElementById("taxonFilter");
+  taxonFilter.innerHTML = `<option value="">すべて</option>`;
+  TAXA.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    taxonFilter.appendChild(opt);
+  });
+  taxonFilter.onchange = renderAll;
+
+  const dates = surveyData.map(d=>d.date).sort();
+  document.getElementById("fromDate").min = dates[0];
+  document.getElementById("fromDate").max = dates.at(-1);
+  document.getElementById("toDate").min  = dates[0];
+  document.getElementById("toDate").max  = dates.at(-1);
+
+  document.getElementById("fromDate").onchange = renderAll;
+  document.getElementById("toDate").onchange = renderAll;
+}
+
+// ==============================
+// ▼ 回次ドロップダウン
+// ==============================
+let activeRound = "all";
+
+function initRoundSelect() {
+  const select = document.getElementById("roundSelect");
+  const rounds = [...new Set(surveyData.map(d => d.round))].sort((a,b)=>a-b);
+
+  select.innerHTML = `<option value="all">すべて</option>` +
+    rounds.map(r => `<option value="${r}">第${r}回</option>`).join("");
+
+  select.onchange = () => {
+    activeRound = select.value;
+    renderAll();
+  };
+}
+
+// ==============================
+// ▼ フィルタ適用
+// ==============================
+function getFilteredData() {
+  const taxon = document.getElementById("taxonFilter").value;
+  const fromDate = document.getElementById("fromDate").value;
+  const toDate   = document.getElementById("toDate").value;
+
+  return surveyData.filter(d => {
+    if (activeRound !== "all" && d.round != activeRound) return false;
+    if (taxon && d.taxon !== taxon) return false;
+    if (fromDate && d.date < fromDate) return false;
+    if (toDate   && d.date > toDate) return false;
+    return true;
+  });
+}
+
+// ==============================
+// ▼ テーブル更新
+// ==============================
+function updateTable(data) {
+  const tbody = document.getElementById("recordsBody");
+  tbody.innerHTML = "";
+  data.forEach(row => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${row.date}</td>
+      <td><span class="badge">第${row.round}回</span></td>
+      <td>${row.taxon}</td>
+      <td>${row.species}</td>
+      <td>${row.count}</td>
+      <td>${row.lat.toFixed(5)}</td>
+      <td>${row.lng.toFixed(5)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ==============================
+// ▼ 地図更新
+// ==============================
+function updateMap(data) {
+  markersLayer.clearLayers();
+  if (!data.length) return;
+
+  const bounds = [];
+  data.forEach(row => {
+    const m = L.marker([row.lat,row.lng]);
+    m.bindPopup(`
+      <strong>${row.species}</strong><br>
+      分類群: ${row.taxon}<br>
+      個体数: ${row.count}<br>
+      調査日: ${row.date}
+    `);
+    m.addTo(markersLayer);
+    bounds.push([row.lat,row.lng]);
+  });
+
+  map.fitBounds(bounds, {padding:[20,20]});
+}
+
+// ==============================
+// ▼ 折れ線グラフ
+// ==============================
+let speciesChart;
+
+function updateChart(data) {
+  const grouped = {};
+  data.forEach(d => {
+    if (!grouped[d.round]) grouped[d.round] = new Set();
+    grouped[d.round].add(d.species);
+  });
+
+  const rounds = Object.keys(grouped).map(Number).sort((a,b)=>a-b);
+  const values = rounds.map(r => grouped[r].size);
+
+  const ctx = document.getElementById("speciesChart");
+
+  if (!speciesChart) {
+    speciesChart = new Chart(ctx, {
+      type: "line",
+      data:{
+        labels: rounds.map(r=>`第${r}回`),
+        datasets:[{
+          data: values,
+          borderColor:"#2563eb",
+          backgroundColor:"rgba(37,99,235,0.15)",
+          fill:true,
+          tension:0.3,
+        }]
+      },
+      options:{
+        responsive:true,
+        plugins:{legend:{display:false}},
+        scales:{
+          y:{beginAtZero:true, title:{display:true,text:"種数"}},
+          x:{title:{display:true,text:"調査回次"}}
+        }
+      }
+    });
+  } else {
+    speciesChart.data.labels = rounds.map(r=>`第${r}回`);
+    speciesChart.data.datasets[0].data = values;
+    speciesChart.update();
+  }
+}
+
+// ==============================
+// ▼ 全更新
+// ==============================
+function renderAll() {
+  const filtered = getFilteredData();
+  updateTable(filtered);
+  updateMap(filtered);
+  updateChart(filtered);
+}
+
+// ==============================
+// ▼ 初期化
+// ==============================
+initRoundSelect();
+initFilters();
+renderAll();
+
+</script>
+
+</body>
+</html>

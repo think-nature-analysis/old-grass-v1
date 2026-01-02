@@ -1,0 +1,802 @@
+/* 基本レイアウト */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#homeButton {
+  background-color: #3E8889;
+  color: white;
+  border: none;
+  padding: 8px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  border-radius: 0px;
+  width: 100%;
+}
+
+#homeButton:hover {
+  background-color: #2a6061;
+}
+
+#homeControl {
+  margin-bottom: 5px;
+}
+
+#csvControl {
+  margin-bottom: 5px;
+}
+
+#container {
+  display: flex;
+  height: 100vh;
+}
+
+#mapcontainer {
+  flex: 1;
+  height: 100%;
+}
+
+#logo-icon {
+  flex: 1;
+  height: 100%;
+}
+
+/* ロゴ */
+#logo-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 1000;
+}
+
+#bottom-logo {
+  margin-bottom: 5px;
+  max-width: 150px;
+}
+
+/* 情報パネル */
+#infoPanel {
+  width: 30%;
+  padding: 20px;
+  background-color: #f0f0f0;
+  display: none;
+  position: relative;
+}
+
+#closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* タブ関連 */
+#tabHeader {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.tab-btn.active {
+  background: #007bff;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+  padding: 10px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-info1, .tab-info2, .tab-info3 {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+/* 画像ヘッダー */
+.image-header1, .image-header2, .image-header3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#imageTitle1, #imageTitle2, #imageTitle3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+#imageTimestamp1, #imageTimestamp2, #imageTimestamp3 {
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* コントロールパネル */
+#controls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 250px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+#controls h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+#controls h4 {
+  margin-top: 8px;
+  margin-bottom: 5px;
+  font-size: 13px;
+  color: #555;
+}
+
+#controls label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+/* レイヤー選択 */
+.layer-selection {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.layer-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.layer-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.layer-item input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+/* アクティブレイヤー設定 */
+.active-layers {
+  margin-bottom: 15px;
+}
+
+/* レイヤー操作パネルのスタイル */
+.layer-settings {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+/* 1番目のレイヤー設定パネルの背景色 */
+#layer1Settings {
+  background-color: #f0f7ff !important;
+  border: 1px solid #d0e0ff !important;
+}
+
+/* 2番目のレイヤー設定パネルの背景色 */
+#layer2Settings {
+  background-color: #fff0f0 !important;
+  border: 1px solid #ffd0d0 !important;
+}
+
+/* レイヤー選択コンテナの背景色 */
+#layerSelectionContainer {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+/* 各レイヤー項目のホバー効果 */
+.layer-item:hover {
+  background-color: #e9e9e9;
+}
+
+/* スライダー関連 */
+.opacitySlider, .range-slider {
+  width: 100%;
+  margin: 5px 0;
+}
+
+.slider-container {
+  margin-bottom: 8px;
+}
+
+/* カラーマップ選択 */
+.colormap-container {
+  margin-bottom: 10px;
+}
+
+.colormap-select {
+  width: 100%;
+  padding: 3px;
+  margin: 5px 0;
+}
+
+.reverse-container {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.reverse-container input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+/* カラーバー */
+[class^="colorbar-"] {
+  position: absolute;
+  left: 10px;
+  z-index: 1000;
+  background-color: white;
+}
+
+
+/* エラーメッセージ */
+.error-message {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 2000;
+  max-width: 300px;
+}
+
+/* ローディングインジケータ */
+.loading-indicator {
+  margin-left: 5px;
+  color: #666;
+  font-size: 12px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+
+.longitude-label {
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+
+/* ベクターレイヤー関連スタイル */
+.vector-control-section {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.vector-layer-list {
+  max-height: 150px;
+  overflow-y: auto;
+  margin: 10px 0;
+  border: 1px solid #eee;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.vector-layer-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+.vector-layer-item:hover {
+  background-color: #f0f0f0;
+}
+
+.vector-layer-item label {
+  flex: 1;
+  margin: 0 5px;
+  font-size: 12px;
+}
+
+.vector-settings-btn, .vector-delete-btn {
+  padding: 2px 5px;
+  margin: 0 2px;
+  font-size: 11px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #f8f8f8;
+  cursor: pointer;
+}
+
+.vector-settings-btn:hover, .vector-delete-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.vector-layer-settings {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.settings-group {
+  margin-bottom: 10px;
+}
+
+.range-inputs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.vector-range-input {
+  width: 80px;
+  padding: 3px;
+  font-size: 12px;
+}
+
+.btn-small {
+  padding: 3px 8px;
+  margin-right: 5px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #f8f8f8;
+  cursor: pointer;
+}
+
+
+.empty-message {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+}
+
+
+/* カテゴリー凡例関連スタイル（改良版） */
+.category-legend {
+  max-height: 350px;
+  overflow-y: auto;
+  font-family: Arial, sans-serif;
+}
+
+.category-legend-title {
+  font-weight: bold;
+  font-size: 13px;
+  margin: 5px 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+.category-legend-items {
+  padding: 5px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.category-legend-item {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.category-legend-item:hover {
+  background-color: #f5f5f5;
+}
+
+.category-color-container {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-color {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.2);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.category-label {
+  font-size: 12px;
+  flex: 1;
+  word-break: break-word;
+}
+
+
+/* ベクターカラーバー関連 */
+.vector-colorbar {
+  transition: bottom 0.3s ease;
+  margin-bottom: 10px;
+  min-height: 80px;
+}
+
+
+.vector-colorbar-canvas-container {
+  padding: 5px;
+  text-align: center;
+}
+
+.vector-colorbar-canvas-container canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 数値カラーバーのラベル表示スタイル */
+.vector-colorbar-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 15px;
+  color: #333;
+}
+
+.vector-colorbar-labels .min-value {
+  text-align: left;
+}
+
+.vector-colorbar-labels .max-value {
+  text-align: right;
+}
+
+
+/* ベクターデータのプロパティ表示スタイル */
+.vector-properties {
+  margin: 8px 0;
+  padding: 8px;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+}
+
+.vector-properties p {
+  margin: 4px 0;
+  font-size: 13px;
+}
+
+.vector-properties strong {
+  color: #444;
+}
+
+
+/* ベクターデータの表示スタイル */
+.vector-popup {
+  max-width: 250px;
+}
+
+/* .vector-popup .highlight-property {
+  background-color: #f5f5f5;
+  padding: 4px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  font-weight: bold;
+} */
+
+
+/* ベクターデータのプロパティ表示スタイル */
+.vector-properties-section {
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px 0;
+  border-left: 3px solid #34a853;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.vector-properties-section h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #34a853;
+  font-size: 14px;
+}
+
+.vector-properties-section p {
+  margin: 4px 0;
+  font-size: 13px;
+}
+
+/* .vector-popup-coordinates {
+  margin-bottom: 8px;
+  padding: 4px;
+  background-color: #f5f5f5;
+  border-radius: 3px;
+} */
+
+
+/* レイヤー値セクションのスタイル */
+.layer-values-section {
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px 0;
+  border-left: 3px solid #4285f4;
+}
+
+.layer-values-section h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #4285f4;
+}
+
+
+/* 範囲外クリック時の表示 */
+.no-data-message {
+  color: #999;
+  font-style: italic;
+  padding: 5px 0;
+}
+
+.vector-layer-info {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* ロゴ部分の操作阻害を解除 */
+#logo-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+    pointer-events: none; /* 追加：ロゴ部分のクリックイベントを無効化 */
+}
+
+#bottom-logo {
+    margin-bottom: 5px;
+    max-width: 150px;
+    pointer-events: auto; /* ロゴ自体はクリック可能に */
+}
+
+/* コントロールパネルとの重なりを避けるための調整 */
+.leaflet-top.leaflet-left {
+    margin-left: 450px; /* コントロールパネル幅(250px) + 余白(30px) */
+}
+
+/* 住所検索UI関連のスタイル */
+.leaflet-control-geocoder {
+  position: relative !important;
+  z-index: 1001 !important;
+}
+
+.leaflet-control-geocoder-alternatives {
+  max-height: 150px !important;
+  overflow-y: auto !important;
+  background-color: white !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  margin-top: 2px !important;
+  z-index: 1003 !important;
+  position: relative !important;
+
+  /* 重要: スクロール可能であることを明示 */
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: thin !important;
+}
+
+/* スクロールバーのスタイル改善 */
+.leaflet-control-geocoder-alternatives::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.leaflet-control-geocoder-alternatives::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+  border-radius: 4px !important;
+}
+
+.leaflet-control-geocoder-alternatives::-webkit-scrollbar-thumb {
+  background: #888 !important;
+  border-radius: 4px !important;
+}
+
+.leaflet-control-geocoder-alternatives::-webkit-scrollbar-thumb:hover {
+  background: #555 !important;
+}
+
+.leaflet-control-geocoder-alternative {
+  padding: 10px 15px !important;
+  border-bottom: 1px solid #eee !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+.leaflet-control-geocoder-alternative:hover {
+  background-color: #f0f8ff !important;
+}
+
+
+/* 検索候補リストのスクロール改善 */
+.leaflet-control-geocoder-alternatives {
+    /* スクロール時の慣性を無効化（iOS Safari対策） */
+    -webkit-overflow-scrolling: touch !important;
+
+    /* マウスホイールでのスクロールを明示的に有効化 */
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+}
+
+/* 検索入力フィールドでのマウスホイール制御 */
+.leaflet-control-geocoder input {
+    /* 入力フィールド上でのマウスホイールイベントを制御 */
+    overscroll-behavior: contain;
+}
+
+
+/* モーダルウィンドウ */
+.iframe-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+.iframe-modal-content {
+    position: relative;
+    margin: 2% auto;
+    width: 90%;
+    max-width: 1200px;
+    height: 90%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.iframe-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+}
+
+.iframe-modal-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.iframe-modal-close {
+    font-size: 28px;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.iframe-modal-close:hover {
+    color: #000;
+}
+
+.iframe-modal-body {
+    flex: 1;
+    padding: 0;
+    overflow: hidden;
+}
+
+.iframe-modal-body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0 0 8px 8px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .iframe-modal-content {
+        width: 95%;
+        height: 95%;
+        margin: 2.5% auto;
+    }
+
+    .iframe-modal-header {
+        padding: 10px 15px;
+    }
+
+    .iframe-modal-title {
+        font-size: 16px;
+    }
+}
+
+/* モーダル表示ボタン */
+.modal-show-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.modal-show-btn:hover {
+    background-color: #0056b3;
+}
+
+.modal-show-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}

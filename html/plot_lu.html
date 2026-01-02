@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Land Use Plot</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  background: #fafafa;
+}
+#chart-container {
+  width: 950%;
+  max-width: 300px;
+  margin: auto;
+}
+canvas {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+</style>
+</head>
+<body>
+<h2 id="title">Land Use Change</h2>
+<div id="chart-container">
+  <canvas id="luChart"></canvas>
+</div>
+
+<script>
+// === 1. URLパラメータからmesh3を取得 ===
+const params = new URLSearchParams(window.location.search);
+const meshID = params.get("arg"); // 例: 50305678
+document.getElementById("title").innerText = "周囲1km 土地利用の変化";
+
+// === 2. TSVファイルを読み込み ===
+fetch("lu_data.tsv")
+  .then(res => res.text())
+  .then(text => {
+    const rows = text.trim().split("\n");
+    const header = rows[0].split(/\t/);
+    const dataRows = rows.slice(1).map(r => r.split(/\t/));
+
+    // === 3. 指定mesh3の行のみ抽出 ===
+    const filtered = dataRows.filter(r => r[0] === meshID);
+    if (filtered.length === 0) {
+      alert("指定mesh3が見つかりません: " + meshID);
+      return;
+    }
+
+    // === 4. 各列を配列化 ===
+    const YEAR = filtered.map(r => Number(r[1]));
+    const forest = filtered.map(r => Number(r[2]));
+    const plantation = filtered.map(r => Number(r[3]));
+    const grass = filtered.map(r => Number(r[4]));
+    const farmland = filtered.map(r => Number(r[5]));
+    const building = filtered.map(r => Number(r[6]));
+    // 5_水域は無視
+
+    // === 5. Chart.jsで描画 ===
+    const ctx = document.getElementById("luChart").getContext("2d");
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: YEAR,
+        datasets: [
+          { label: "森林（人工林以外）", data: forest, borderColor: "darkgreen", backgroundColor: "darkgreen", fill: false },
+          { label: "人工林", data: plantation, borderColor: "darksalmon", backgroundColor: "darksalmon", fill: false },
+          { label: "草地", data: grass, borderColor: "green", backgroundColor: "green", fill: false },
+          { label: "農地", data: farmland, borderColor: "orange", backgroundColor: "orange", fill: false },
+          { label: "建物", data: building, borderColor: "darkgrey", backgroundColor: "darkgrey", fill: false }
+        ]
+      },
+      options: {
+        responsive: true,
+        aspectRatio: 1,
+        scales: {
+          x: { title: { display: true, text: "YEAR" } },
+          y: { title: { display: true, text: "Area (m²)" }, beginAtZero: true }
+        },
+        plugins: {
+          legend: { position: "bottom" },
+          title: { display: false }
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
