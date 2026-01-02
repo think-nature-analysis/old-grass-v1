@@ -1,0 +1,100 @@
+{
+    "layers": [
+      {
+        "id": "dist_planat_2021",
+        "name": "2021 SNG distribution ha/100k㎡",
+        "url": "./raster/2021_grassland_concec_mesh2_area_view.tif",
+        "defaultColormap": "afmhot",
+        "defaultOpacity": 0.7,
+        "type": "raster",
+        "locationCode": {
+          "type": "meshCode"
+        },
+        "displayMode": "iframe",
+        "urltype": "arg",
+        "urlbase": null,
+        "paths": {
+          "basedir": "../img/",
+          "baseUrl": "../html/grass.html?path=dam",
+          "idBasedir": "../my_assets/",
+          "idBaseUrl": "../my_assets/"
+        }
+      },
+      {
+        "id": "dist_planat_1976",
+        "name": "1976 SNG distribution ha/100k㎡",
+        "url": "./raster/1976_grassland_concec_mesh2_area_view.tif",
+        "defaultColormap": "afmhot",
+        "defaultOpacity": 0.7,
+        "type": "raster",
+        "locationCode": {
+          "type": "meshCode"
+        },
+        "displayMode": "iframe",
+        "urltype": "arg",
+        "urlbase": null,
+        "paths": {
+          "basedir": "../img/",
+          "baseUrl": "../html/grass.html?path=dam",
+          "idBasedir": "../my_assets/",
+          "idBaseUrl": "../my_assets/"
+        }
+      },
+      {
+        "id": "dist_planat_1900",
+        "name": "1900 SNG distribution ha/100k㎡",
+        "url": "./raster/1900_grassland_concec_mesh2_area_view.tif",
+        "defaultColormap": "afmhot",
+        "defaultOpacity": 0.7,
+        "type": "raster",
+        "locationCode": {
+          "type": "meshCode"
+        },
+        "displayMode": "iframe",
+        "urltype": "arg",
+        "urlbase": null,
+        "paths": {
+          "basedir": "../img/",
+          "baseUrl": "../html/grass.html?path=dam",
+          "idBasedir": "../my_assets/",
+          "idBaseUrl": "../my_assets/"
+        }
+      },
+      {
+        "id": "old_grasslands",
+        "name": "old_grasslands",
+        "url": "./vector/old_grasslands.geojson",
+        "defaultColormap": "dark",
+        "defaultOpacity": 0.85,
+        "type": "vector",
+        "propertyField": "national_park"
+      },
+      {
+        "id": "z_plant_v",
+        "name": "Grassland plant species conservation priority",
+        "url": "./vector/grassland_plant_priority_map.geojson",
+        "defaultColormap": "colorful",
+        "defaultOpacity": 0.85,
+        "type": "vector",
+        "propertyField": "range"
+      },
+      {
+        "id": "z_animal_v",
+        "name": "Grassland animal conservation priority",
+        "url": "./vector/grassland_animal_priority_map.geojson",
+        "defaultColormap": "colorful",
+        "defaultOpacity": 0.85,
+        "type": "vector",
+        "propertyField": "range"
+      },
+      {
+        "id": "z_all_v",
+        "name": "Grassland all species conservation priority",
+        "url": "./vector/grassland_priority_map.geojson",
+        "defaultColormap": "colorful",
+        "defaultOpacity": 0.85,
+        "type": "vector",
+        "propertyField": "range"
+      }
+    ]
+  }
