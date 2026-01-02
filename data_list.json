@@ -15,7 +15,7 @@
         "urlbase": null,
         "paths": {
           "basedir": "../img/",
-          "baseUrl": "./sources/html/grass.html?path=dam",
+          "baseUrl": "./html/grass.html?path=dam",
           "idBasedir": "../my_assets/",
           "idBaseUrl": "../my_assets/"
         }
@@ -35,7 +35,7 @@
         "urlbase": null,
         "paths": {
           "basedir": "../img/",
-          "baseUrl": "./sources/html/grass.html?path=dam",
+          "baseUrl": "./html/grass.html?path=dam",
           "idBasedir": "../my_assets/",
           "idBaseUrl": "../my_assets/"
         }
@@ -55,7 +55,7 @@
         "urlbase": null,
         "paths": {
           "basedir": "../img/",
-          "baseUrl": "./sources/html/grass.html?path=dam",
+          "baseUrl": "./html/grass.html?path=dam",
           "idBasedir": "../my_assets/",
           "idBaseUrl": "../my_assets/"
         }

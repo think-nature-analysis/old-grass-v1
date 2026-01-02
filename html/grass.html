@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mesh1 Trend Viewer</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    .row { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 14px 16px; }
+    .meta { margin-bottom: 12px; line-height: 1.6; }
+    .meta code { background: #f6f6f6; padding: 2px 6px; border-radius: 6px; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    .small { font-size: 12px; color: #555; }
+    #chartWrap { width: 520px; }
+    #lineChart { width: 520px !important; height: 280px !important; }
+    .warn { color: #b00020; }
+  </style>
+</head>
+<body>
+  <div id="msg" class="warn"></div>
+
+  <div class="row">
+    <div class="card" style="min-width: 520px;">
+      <div id="chartWrap">
+        <canvas id="lineChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card" style="min-width: 420px; flex: 1;">
+      <div id="table"></div>
+    </div>
+  </div>
+
+  <script>
+    // ===== TSV ローダー =====
+    async function loadTSV(path) {
+      const text = await fetch(path).then(r => {
+        if (!r.ok) throw new Error("TSVの取得に失敗: " + r.status);
+        return r.text();
+      });
+      const rows = text.trim().split("\n").map(r => r.split("\t"));
+      const header = rows[0].map(h => h.trim());
+      const data = rows.slice(1).map(r => {
+        const obj = {};
+        header.forEach((h, i) => { obj[h] = (r[i] ?? "").trim(); });
+        return obj;
+      });
+      return { header, data };
+    }
+
+    // ===== URL パラメータ取得 =====
+    function getParams() {
+      const url = new URL(window.location.href);
+      return { arg: url.searchParams.get("arg") };
+    }
+
+    // ===== 数値パース（空やNaNは0扱いにしたいならここを調整）=====
+    function toNum(x) {
+      const v = parseFloat(x);
+      return Number.isFinite(v) ? v : NaN;
+    }
+
+    // ===== HTMLエスケープ =====
+    function esc(s){
+      return String(s).replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[c]));
+    }
+
+    // ===== 増減表描画 =====
+    function renderTable(years, values) {
+      // values: {year: number}
+      const rows = [];
+      for (let i = 0; i < years.length; i++) {
+        const y = years[i];
+        const v = values[y];
+        const prevY = years[i - 1];
+        const diff = (i === 0) ? "" : (v - values[prevY]);
+        const ratio = (i === 0) ? "" : (values[prevY] === 0 ? "" : (v / values[prevY]));
+        rows.push({ y, v, diff, ratio });
+      }
+
+      let html = "<table><thead><tr>" +
+        "<th>year</th><th>decrease</th><th>diff</th><th>rate</th>" +
+        "</tr></thead><tbody>";
+
+      for (const r of rows) {
+        const v = Number.isFinite(r.v) ? r.v : "";
+        const d = (r.diff === "") ? "" : (Number.isFinite(r.diff) ? r.diff : "");
+        const ra = (r.ratio === "") ? "" : (Number.isFinite(r.ratio) ? r.ratio : "");
+        html += "<tr>" +
+          `<td>${esc(r.y)}</td>` +
+          `<td>${v === "" ? "" : v.toLocaleString()}</td>` +
+          `<td>${d === "" ? "" : d.toLocaleString()}</td>` +
+          `<td>${ra === "" ? "" : ra.toFixed(4)}</td>` +
+        "</tr>";
+      }
+      html += "</tbody></table>";
+      return html;
+    }
+
+    // ===== 折れ線描画 =====
+    function renderLineChart(years, yvals) {
+      const ctx = document.getElementById("lineChart").getContext("2d");
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: years,
+          datasets: [{
+            label: "Grassland area ha / 100k㎡",
+            data: yvals,
+            tension: 0.2,
+            pointRadius: 3
+          }]
+        },
+        options: {
+          responsive: false,
+          maintainAspectRatio: false,
+          scales: {
+            x: { title: { display: true, text: "Year" } },
+            y: { title: { display: true, text: "Value" } }
+          },
+          plugins: {
+            legend: { display: true }
+          }
+        }
+      });
+    }
+
+    // ===== メイン処理 =====
+    (async () => {
+      const years = ["1900","1976","1997","2021"];
+      const { arg } = getParams();
+
+      if (!arg) {
+        document.getElementById("msg").textContent = "URLパラメータ arg（mesh3）が必要です。例: ?arg=52345678";
+        return;
+      }
+
+      const mesh3 = parseInt(arg, 10);
+      if (!Number.isFinite(mesh3)) {
+        document.getElementById("msg").textContent = "arg が数値として解釈できません。";
+        return;
+      }
+
+      const mesh1 = Math.floor(mesh3 / 10000);
+
+      let tsv;
+      try {
+        tsv = await loadTSV("grass_data.tsv");
+      } catch (e) {
+        document.getElementById("msg").textContent = e.message;
+        return;
+      }
+
+      // mesh1 を一致検索（TSV側は mesh1 列がある前提）
+      const row = tsv.data.find(r => parseInt(r["mesh1"], 10) === mesh1);
+
+      if (!row) {
+        document.getElementById("msg").textContent = "該当する mesh1 が TSV に見つかりません: " + mesh1;
+        return;
+      }
+
+      // 値取り出し
+      const values = {};
+      for (const y of years) values[y] = toNum(row[y]);
+
+      // NaNが混ざる場合のメッセージ
+      const bad = years.filter(y => !Number.isFinite(values[y]));
+      if (bad.length > 0) {
+        document.getElementById("msg").textContent =
+          "注意: 次の年の値が数値として読めません（空欄/非数）: " + bad.join(", ");
+      }
+
+      // 表
+      document.getElementById("table").innerHTML = renderTable(years, values);
+
+      // 折れ線（NaNはそのまま Chart.js に渡すと欠損として線が途切れます）
+      const yvals = years.map(y => values[y]);
+      renderLineChart(years, yvals);
+    })();
+  </script>
+</body>
+</html>
