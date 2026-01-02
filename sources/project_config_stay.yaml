@@ -1,0 +1,61 @@
+# Project Configuration File
+# プロジェクト設定ファイル
+# YAML形式で記述してください
+
+# プロジェクトID（現在未使用）
+project_id: 1
+
+# 機能フラグとグローバル設定
+features:
+  # ラスターレイヤー機能
+  rasterLayers:
+    enabled: true               # ラスターレイヤー描画機能の有効化
+    layerSelectionPanel: true   # レイヤー選択パネルの表示
+    layerSettingsUI: true       # レイヤー設定UI（カラーマップ、透明度など）
+    initmap: true               # 起動時に最初のラスターレイヤーを自動読み込み
+
+  # ベクターレイヤー機能
+  vectorLayers:
+    enabled: true               # ベクターレイヤー描画機能の有効化
+    layerPanel: true            # ベクターレイヤーチェックボックス（常にtrue）
+    propertySelection: true     # ベクターレイヤー操作機能
+    loadGeojson: true           # GeoJSONファイル読み込み機能
+
+  # マーカー機能
+  markers:
+    csvImport: true             # CSVファイル読み込み機能
+
+  # 地図コントロール
+  mapControls:
+    homeButton: true            # HOMEボタン機能（常にtrue）
+
+  # 位置コードシステム
+  locationCodes:
+    type: "worldGrid"           # "meshCode"（日本3次メッシュ）, "worldGrid"（世界10分グリッド）, "none"
+
+  # 詳細パネル表示設定（レイヤー個別設定のデフォルト値）
+  detailPanel:
+    displayMode: "iframe"       # "image" または "iframe"
+    urltype: "raw"              # "raw"（静的ファイル）または "arg"（動的生成）
+    urlbase: null               # 動的生成の場合のテンプレートURL
+
+    # 通常マーカー用パス
+    basedir: "../img/"          # 画像モード時のベースディレクトリ（最後にスラッシュ必須）
+    baseUrl: "../html/"         # iframeモード時のベースURL（最後にスラッシュ必須）
+
+    # ID付きマーカー用パス
+    idBasedir: "../my_assets/"  # ID付きマーカーの画像フォルダ（最後にスラッシュ必須）
+    idBaseUrl: "../my_assets/"  # ID付きマーカーのHTMLフォルダ（最後にスラッシュ必須）
+
+    # フォールバック画像
+    fallbackImage: "../default_img/noimage1.png"    # コンテンツが見つからない場合
+    timeoutImage: "../default_img/timeout_image.png"  # タイムアウト時
+
+  # 地図初期設定
+  initmap:
+    center: [35.91303877717645, 139.6156251548892]  # 初期中心座標 [緯度, 経度]
+    zoom: 4                     # 初期ズームレベル
+    bounds:                     # 地図の表示範囲制限
+      - [-90, -280]             # 南西の座標 [緯度, 経度]
+      - [90, 280]               # 北東の座標 [緯度, 経度]
+    maxBoundsViscosity: 0.5     # 範囲外へのドラッグ抵抗（0-1）

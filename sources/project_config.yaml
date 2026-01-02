@@ -1,0 +1,57 @@
+# Project config file
+# Available .yaml or .json file
+# (data_list file is only used .json file)
+
+{   "project_id": 1,  # 現状未使用
+
+    "features": {
+      "rasterLayers": {
+        "enabled": true,  # ラスターレイヤー描画機能
+        "layerSelectionPanel": true,  # レイヤー選択機能
+        "layerSettingsUI": true,  # レイヤーのカラーマップなど操作する機能. これがtrueの時はlayerSelectionPanelもtrueの必要がある。
+        "initmap": true  # 初期表示するか否か。する場合、データ定義のjsonの最初のラスターデータを表示する。
+      },
+      "vectorLayers": {
+        "enabled": true,  # ベクターレイヤー描画機能
+        "layerPanel": true,  # 現状これは常にtrue. ベクターチェックボックス
+        "propertySelection": true,  # ベクターレイヤー操作機能
+        "loadGeojson": true  # Geojsonファイルload機能
+      },
+      "markers": {
+        "csvImport": true  # csv load機能
+      },
+      "mapControls": {
+        "homeButton": true  homeButton機能. 常にtrue
+      },
+      # 位置コード機能
+      "locationCodes": {
+        "type": "worldGrid"  # "meshCode", "worldGrid", "none" のいずれかを指定
+      },
+      # 詳細パネル表示設定
+      # レイヤー個別の設定が反映されないときのデフォルト値
+      'detailPanel': {
+          'displayMode': "iframe",    # "image" または "iframe"
+          # 図表フォルダ
+          'basedir': "../img/",     # 最後にスラッシュは必須。imageモードの場合のベースDIR
+          'baseUrl': "../html/",     # 最後にスラッシュは必須。iframeモードの場合のベースURL
+          'urltype': 'raw',      # 表示する図が動的生成か静的なファイルかどうか。
+          'urlbase': null,      # 動的生成の場合、urlが必要。
+          # ID付きマーカー用のフォルダ
+          'idBasedir': "../my_assets/",  # 最後にスラッシュは必須。ID付きマーカー用の画像フォルダ
+          'idBaseUrl': "../my_assets/",  # 最後にスラッシュは必須。ID付きマーカー用のHTMLフォルダ
+          'fallbackImage': "../default_img/noimage1.png",  # フォールバック画像
+          'timeoutImage': "../default_img/timeout_image.png"  # フォールバック画像
+      },
+      # map初期値
+      'initmap': {
+          'center': [35.139314945383745, 136.9018999211331],
+          'zoom': 5,
+          'bounds': [
+            [-90, -280], # 南西の座標 [緯度, 経度]
+            [90, 280]    # 北東の座標 [緯度, 経度]
+            ],
+          'maxBoundsViscosity': 0.5
+      }
+    }
+}
+  
