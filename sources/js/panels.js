@@ -146,16 +146,16 @@ async function showInfoPanel(markerInfo, loadingToken = null) {
         document.getElementById('imageTitle3').textContent = title;
 
         // --- パネルコンテンツの構築（基本情報 + 位置コード） ---
-        let infoHTML = `<p><strong>Loc:</strong> ${markerInfo.name}</p>
-                       <p><strong>Lat:</strong> ${markerInfo.lat.toFixed(4)}|
-                       <strong>Lon:</strong> ${markerInfo.lon.toFixed(4)}</p>`;
+        let infoHTML = `<p><strong>地点名:</strong> ${markerInfo.name}</p>
+                       <p><strong>緯度:</strong> ${markerInfo.lat.toFixed(4)}|
+                       <strong>経度:</strong> ${markerInfo.lon.toFixed(4)}</p>`;
 
         const locationCodeType = markerInfo.locationCodeType || 'worldGrid';
 
         if (locationCodeType === 'meshCode') {
             infoHTML += formatLocationCode(
                 markerInfo.meshcode3,
-                'mesh code'
+                '3次メッシュコード'
             );
         }
 
@@ -352,8 +352,9 @@ async function showTabImage(imageId, locationKey = null, tabNumber, loadingToken
         for (const layerId of activeLayerIds) {
             if (foundContent) break;
 
-            // 有効なラスター値を持つレイヤーのみ検索
-            if (!hasValidRasterValue(markerInfo, layerId)) continue;
+            // IDキー（spec_等）の場合はラスター値チェックをスキップ
+            // IDキー以外はラスター値が有効なレイヤーのみ検索
+            if (!locationKey.useIdFolder && !hasValidRasterValue(markerInfo, layerId)) continue;
 
             const paths = await Utils.getPathsForLayer(layerId);
             const { basedir, baseUrl } = resolveContentPaths(paths, locationKey);
@@ -364,7 +365,17 @@ async function showTabImage(imageId, locationKey = null, tabNumber, loadingToken
                 : await tryShowImageMode(imageId, basedir, locationKey.key, tabNumber);
         }
 
-        // どのレイヤーでもコンテンツが見つからなかった場合、フォールバック画像を表示
+        // アクティブレイヤーで見つからなかった場合、__default__設定で再検索
+        if (!foundContent && locationKey.key) {
+            const defaultPaths = await Utils.getPathsForLayer(AppConstants.layers.defaultLayerId);
+            const { basedir, baseUrl } = resolveContentPaths(defaultPaths, locationKey);
+
+            foundContent = displayMode === 'iframe'
+                ? await tryShowIframeMode(imageId, baseUrl, locationKey.key, tabNumber, loadingToken, AppConstants.layers.defaultLayerId)
+                : await tryShowImageMode(imageId, basedir, locationKey.key, tabNumber);
+        }
+
+        // それでも見つからなかった場合、フォールバック画像を表示
         if (!foundContent) {
             displayMode === 'iframe'
                 ? fallbackToImage(container, imageId)
@@ -730,13 +741,13 @@ function addModalButtons() {
         // モーダル表示ボタンを作成
         const modalBtn = document.createElement('button');
         modalBtn.className = `modal-show-btn modal-show-btn-${i}`;
-        modalBtn.textContent = 'Enlarge';
+        modalBtn.textContent = '拡大表示';
         modalBtn.disabled = true; // 初期状態では無効
 
         modalBtn.addEventListener('click', () => {
             const content = PanelState.currentModalContent[`tab${i}`];
             if (content && content.url) {
-                openModal(content.url, `${content.title} - Tab${i}`);
+                openModal(content.url, `${content.title} - タブ${i}`);
             }
         });
 

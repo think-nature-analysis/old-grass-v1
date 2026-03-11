@@ -100,8 +100,8 @@ const Utils = {
 
         // 必要な列が見つからない場合はエラー
         if (latIndex === -1 || lonIndex === -1) {
-            alert(
-                'CSVファイルに緯度・経度の列が見つかりません。\n列名には「lat/緯度」と「lon/lng/経度」を含めてください。'
+            ErrorHandler.showUserError(
+                'CSVファイルに緯度・経度の列が見つかりません。列名には「lat/緯度」と「lon/lng/経度」を含めてください。'
             );
             return markers;
         }
@@ -121,7 +121,7 @@ const Utils = {
             const name =
                 nameIndex !== -1
                     ? parts[nameIndex].trim()
-                    : `Loc(${lat.toFixed(4)}, ${lon.toFixed(4)})`;
+                    : `地点(${lat.toFixed(4)}, ${lon.toFixed(4)})`;
 
             // IDを取得（ID列が見つからない場合はnullまたはデフォルト値を使用）
             const id = idIndex !== -1 ? parts[idIndex].trim() : null;

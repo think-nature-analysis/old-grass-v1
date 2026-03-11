@@ -6,13 +6,30 @@ let projectConfig = null;
 // DOMContentLoadedイベントでアプリケーションを初期化
 document.addEventListener('DOMContentLoaded', function () {
     console.log('[Main] アプリケーション初期化開始');
-    loadProjectConfig()
+    loadEnvConfig()
+        .then(loadProjectConfig)
         .then(initializeApp)
         .catch((error) => {
             console.error('[Main] 初期化失敗:', error);
-            alert('設定ファイルの読み込みに失敗しました。project_config.yaml を確認してください。');
+            alert('設定ファイルの読み込みに失敗しました。env.json / project_config.yaml を確認してください。');
         });
 });
+
+// env.json を読み込み、AppConstants.urls を上書きする
+// URLパラメータ ?env=<url> でenv.jsonのURLを上書き可能（テスト用途）
+async function loadEnvConfig() {
+    try {
+        const envUrl = new URLSearchParams(location.search).get('env') || './env.json';
+        const response = await fetch(envUrl);
+        if (!response.ok) return;
+        const env = await response.json();
+        if (env.configPath) AppConstants.urls.projectConfig = env.configPath;
+        if (env.dataListPath) AppConstants.urls.layersConfig = env.dataListPath;
+        console.log('[Main] 環境設定読み込み完了:', env);
+    } catch (e) {
+        console.log('[Main] env.json なし、デフォルト設定を使用');
+    }
+}
 
 // アプリケーション初期化
 function initializeApp() {
