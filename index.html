@@ -72,7 +72,7 @@ figure { margin: 1.4rem 0; }
   .table-wrap { margin: 1.2rem 0; overflow-x: auto; }
   .table-caption { font-size: 0.76rem; color: var(--ink-mid); margin-bottom: 0.3em; }
   .table-caption b { color: var(--ink); }
-  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; color: var(--ink-mid); }
+  table { width: 100%; min-width: 0; border-collapse: collapse; font-size: 0.82rem; color: var(--ink-mid); }
   thead th { background: var(--inst-pale); color: var(--inst-dark); font-weight: 500; padding: 0.45em 0.75em; border: 1px solid #b5cebb; text-align: left; }
   tbody td { padding: 0.4em 0.75em; border: 1px solid var(--rule); vertical-align: top; }
   tbody tr:nth-child(even) td { background: #fafafa; }
@@ -122,9 +122,20 @@ figure { margin: 1.4rem 0; }
     background: var(--inst-pale);
   }
 
-  @media (max-width: 640px) {
-    .page-wrap { grid-template-columns: 1fr; }
+  @media (max-width: 684px) {
+    .page-wrap {
+      grid-template-columns: 1fr;
+      padding: 0 0.6rem;
+      margin: 0.8rem auto;
+    }
+    .main-content { padding: 1rem 1rem; }
     .topbar .breadcrumb { display: none; }
+    .gnav-tab { font-size: 0.78rem; padding: 0.5em 0.9em; }
+    h2 { font-size: 0.92rem; }
+    p, tbody td, thead th { font-size: 0.8rem; }
+    .page-title { font-size: 1rem; }
+    .home-lead { font-size: 0.82rem; }
+    table { width: max-content; font-size: 0.75rem; }
   }
 .cta-btn {
   display: inline-flex;
