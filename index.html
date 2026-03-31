@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Old grassland watch by Think Nature</title><!-- ★ タイトル -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --inst:      #2e6b3e;   /* ★ メインカラー（機関カラー） */
+    --inst-dark: #1f4d2c;
+    --inst-pale: #eaf2ec;
+    --link:      #1a5fa8;
+    --ink:       #222;
+    --ink-mid:   #555;
+    --ink-soft:  #888;
+    --rule:      #ccc;
+    --bg:        #fff;
+    --bg-alt:    #f5f5f5;
+    --font: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+    --max-w: 900px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 14px; }
+  body { background: var(--bg-alt); color: var(--ink); font-family: var(--font); font-weight: 400; line-height: 1.8; }
+  a { color: var(--link); }
+  a:hover { text-decoration: underline; }
+
+  .topbar {
+    background: var(--inst-dark); color: #fff; font-size: 0.75rem;
+    padding: 0.3em 1rem; display: flex; gap: 1rem; align-items: center;
+  }
+  .topbar .org { opacity: 0.8; }
+  .topbar .breadcrumb { opacity: 0.65; margin-left: auto; }
+  .topbar a { color: #cde; }
+
+  .site-header { background: var(--inst); color: #fff; padding: 0.9rem 1rem; }
+  .site-header-inner { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; gap: 1.2rem; }
+  .logo-mark { width: 38px; height: 38px; background: rgba(255,255,255,0.2); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .site-header h1 { font-size: 1.05rem; font-weight: 500; letter-spacing: 0.03em; line-height: 1.3; }
+  .site-header .eng { font-size: 0.72rem; opacity: 0.75; font-weight: 300; }
+
+  .gnav { background: var(--inst-dark); border-bottom: 3px solid var(--inst); }
+  .gnav-inner { max-width: var(--max-w); margin: 0 auto; display: flex; }
+  .gnav-tab {
+    display: block; color: rgba(255,255,255,0.8); text-decoration: none;
+    font-size: 0.85rem; padding: 0.6em 1.6em; cursor: pointer;
+    border: none; background: none; font-family: var(--font);
+    border-bottom: 3px solid transparent; margin-bottom: -3px;
+  }
+  .gnav-tab:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .gnav-tab.active { background: var(--inst); color: #fff; border-bottom-color: #fff; }
+
+  .page-wrap { max-width: var(--max-w); margin: 1.5rem auto; padding: 0 1rem; display: grid; grid-template-columns: 1fr 220px; gap: 1.5rem; align-items: start; }
+  .main-content { background: var(--bg); border: 1px solid var(--rule); padding: 1.8rem 2rem; }
+  .page-title { font-size: 1.2rem; font-weight: 500; color: var(--inst-dark); border-bottom: 2px solid var(--inst); padding-bottom: 0.5em; margin-bottom: 1.4rem; }
+  .page-meta { font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 1.4rem; display: flex; gap: 1.4rem; }
+
+  h2 { font-size: 1rem; font-weight: 500; color: var(--bg); background: var(--inst); padding: 0.35em 0.8em; margin: 2rem 0 0.8rem; }
+  h3 { font-size: 0.92rem; font-weight: 500; color: var(--inst-dark); border-left: 3px solid var(--inst); padding-left: 0.6em; margin: 1.4rem 0 0.5rem; }
+  p { font-size: 0.88rem; color: var(--ink-mid); margin-bottom: 0.9rem; line-height: 1.85; }
+
+figure { margin: 1.4rem 0; }
+.img-wrap { width: 100%; background: #dde8dd; border: 1px solid var(--rule); line-height: 0; }
+.img-wrap img { width: 100%; height: auto; display: block; }
+.img-wrap:not(:has(img)) { aspect-ratio: 16 / 7; display: flex; align-items: center; justify-content: center; color: var(--ink-soft); font-size: 0.78rem; line-height: 1.4; }
+  figcaption { font-size: 0.76rem; color: var(--ink-soft); margin-top: 0.3em; line-height: 1.6; }
+  figcaption b { color: var(--ink); }
+
+  .table-wrap { margin: 1.2rem 0; overflow-x: auto; }
+  .table-caption { font-size: 0.76rem; color: var(--ink-mid); margin-bottom: 0.3em; }
+  .table-caption b { color: var(--ink); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; color: var(--ink-mid); }
+  thead th { background: var(--inst-pale); color: var(--inst-dark); font-weight: 500; padding: 0.45em 0.75em; border: 1px solid #b5cebb; text-align: left; }
+  tbody td { padding: 0.4em 0.75em; border: 1px solid var(--rule); vertical-align: top; }
+  tbody tr:nth-child(even) td { background: #fafafa; }
+  tbody td:first-child { font-weight: 500; color: var(--ink); white-space: nowrap; }
+  tfoot td { padding: 0.3em 0.75em; font-size: 0.72rem; color: var(--ink-soft); border-top: 1px solid var(--rule); background: #f9f9f9; }
+
+  blockquote { background: var(--bg-alt); border-left: 3px solid var(--inst); margin: 1.2rem 0; padding: 0.7em 1em; }
+  blockquote p { font-size: 0.85rem; color: var(--ink); margin-bottom: 0.3em; }
+  blockquote cite { font-size: 0.72rem; color: var(--ink-soft); font-style: normal; display: block; }
+  blockquote cite::before { content: '出典：'; }
+
+  .note-box { background: #fffbe6; border: 1px solid #e8d96a; border-left: 3px solid #c8a800; padding: 0.6em 0.9em; font-size: 0.8rem; color: var(--ink-mid); margin: 1rem 0; line-height: 1.7; }
+  .note-box::before { content: '【注】'; font-weight: 500; color: #7a6000; margin-right: 0.3em; }
+
+  .home-lead { background: var(--inst-pale); border-left: 4px solid var(--inst); padding: 1em 1.2em; margin-bottom: 1.4rem; font-size: 0.9rem; color: var(--inst-dark); line-height: 1.8; }
+  .home-news { list-style: none; padding: 0; }
+  .home-news li { display: flex; gap: 0.8em; align-items: baseline; padding: 0.45em 0; border-bottom: 1px solid var(--rule); font-size: 0.82rem; }
+  .home-news li:last-child { border-bottom: none; }
+  .news-date { color: var(--ink-soft); white-space: nowrap; font-size: 0.76rem; }
+  .news-tag { background: var(--inst); color: #fff; font-size: 0.66rem; padding: 0.1em 0.5em; white-space: nowrap; border-radius: 2px; }
+
+  .sidebar { display: flex; flex-direction: column; gap: 1rem; }
+  .sidebar-box { background: var(--bg); border: 1px solid var(--rule); }
+  .sb-title { background: var(--inst); color: #fff; font-size: 0.78rem; font-weight: 500; padding: 0.4em 0.8em; }
+  .sb-body { padding: 0.7rem 0.9rem; font-size: 0.78rem; color: var(--ink-mid); line-height: 1.75; }
+  .sb-body ol, .sb-body ul { padding-left: 1.3em; }
+  .sb-body li { margin: 0.2em 0; }
+  .sb-body a { font-size: 0.78rem; }
+  .sb-body .updated { font-size: 0.7rem; color: var(--ink-soft); margin-top: 0.5em; }
+
+  .site-footer { background: var(--inst-dark); color: rgba(255,255,255,0.65); text-align: center; font-size: 0.72rem; padding: 1.2rem; margin-top: 2rem; }
+
+
+  /* ── 目次スクロール連動 ── */
+  .sb-body .toc-list { list-style: none; padding: 0; }
+  .sb-body .toc-list li { margin: 0; }
+  .sb-body .toc-list a {
+    display: block; padding: 0.25em 0.5em;
+    font-size: 0.78rem; color: var(--ink-mid);
+    text-decoration: none; border-left: 2px solid transparent;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .sb-body .toc-list a:hover { color: var(--inst); }
+  .sb-body .toc-list a.toc-active {
+    color: var(--inst-dark); font-weight: 500;
+    border-left-color: var(--inst);
+    background: var(--inst-pale);
+  }
+
+  @media (max-width: 640px) {
+    .page-wrap { grid-template-columns: 1fr; }
+    .topbar .breadcrumb { display: none; }
+  }
+.cta-btn {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 0.9em 1.4em;
+  margin: 1.4rem 0 0.4rem;
+  background: var(--inst);
+  color: #fff;
+  text-decoration: none;
+}
+.cta-btn:hover { background: var(--inst-dark); color: #fff; text-decoration: none; }
+.cta-btn .cta-label { font-size: 0.7rem; opacity: 0.8; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.2em; }
+.cta-btn .cta-title { font-size: 1rem; font-weight: 500; }
+.cta-btn .cta-sub   { font-size: 0.7rem; opacity: 0.7; margin-top: 0.25em; }
+
+.ref-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--ink-mid);
+  line-height: 1.75;
+}
+.ref-list li {
+  padding: 0.45em 0 0.45em 2em;
+  text-indent: -2em;       /* ★ ぶら下げインデント */
+  border-bottom: 1px solid var(--rule);
+}
+.ref-list li:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+
+<!-- ★ 上部バー：組織名とパンくず -->
+<div class="topbar">
+  <span class="org"></span><!-- ★ 組織名 -->
+  <span class="breadcrumb" id="js-breadcrumb">
+    <a href="#" onclick="switchTab('home');return false;">Home</a>
+  </span>
+</div>
+
+<!-- ★ サイトヘッダー：ロゴと組織名 -->
+<header class="site-header">
+  <div class="site-header-inner">
+    <div class="logo-mark">🌿</div><!-- ★ ロゴ（絵文字 or <img>に差し替え） -->
+    <div>
+      <h1>Japanese Old Grassland Watch</h1><!-- ★ 組織名（日本語） -->
+      <div class="eng">Powerd by Think Nature Inc.</div><!-- ★ 組織名（英語） -->
+    </div>
+  </div>
+</header>
+
+<!-- ★ タブナビ：タブを増やす場合はここに <button> を追加 -->
+<nav class="gnav">
+  <div class="gnav-inner">
+    <button class="gnav-tab active" id="tab-home"      onclick="switchTab('home')">Home</button>
+    <button class="gnav-tab"        id="tab-grassland" onclick="switchTab('grassland')">Resources</button>
+    <button class="gnav-tab"        id="tab-gis" onclick="switchTab('gis')">Web Viewer</button>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     タブ①：ホーム
+     編集箇所：.home-lead / お知らせリスト / 研究概要の p タグ
+============================================================ -->
+<div id="panel-home">
+<div class="page-wrap">
+
+  <main class="main-content">
+
+    <h1 class="page-title">Welcome to Japanese Old Grassland Watch</h1><!-- ★ ページタイトル -->
+
+    <!-- ★ リード文 -->
+    <div class="home-lead">
+	We are compiling spatial and statistical information on the spatio-temporal dynamics of grasslands at the national scale in Japan, with a focus on semi-natural grasslands.    </div>
+
+    <h2>What is old seminatural grasslands?</h2>
+
+    <!-- ★ 図：.img-wrap の中身を <img src="..." alt="..."> に差し替え、figcaption を編集 -->
+    <figure>
+      <div class="img-wrap"><img src="ac3.png" alt="historically grasslands near paddy fields"></div>
+      <figcaption><b>Figure 1</b> A historically grassland patch near paddy fields.</figcaption>
+    </figure>
+
+    <!-- ★ 本文：p タグを増減して編集 -->
+    <p>
+Recent research has revealed that semi-natural grasslands in Japan, those that have been continuously managed by humans over long periods, represent ecosystems that differ markedly from both natural grasslands and secondary grasslands with shorter management histories. 
+Such an importance have not been recognized broadly. Reflecting this, the distribution of such old semi-natural grasslands has never previously been visualized. This page presents the results of such a visualization. The data layer for grasslands with a continuity of 100 years or more is interactively visible <a href="https://grassland.think-nature.jp/sources/" target="_blank">here</a> and available for download here (<a href="https://zenodo.org/records/18131104" target="_blank">zenodo.org/records/18131104</a>).    </p>
+
+<p>
+<b>This webpage includes research outcomes supported by</b> Environment Research and Technology Development Fund (JPMEERF20234005) of the Environmental Restoration and Conservation Agency provided by Ministry of the Environment of Japan; <br>
+(In Japanese) 環境研究総合推進費環境問題対応型研究　課題番号：【4-2305】　2023～2025年度
+研究課題： 歴史が生み出す二次的自然のホットスポット：環境価値と保全効果の「見える化」
+</p>
+  </main>
+
+  <!-- ★ サイドバー（ホーム） -->
+  <aside class="sidebar">
+    <div class="sidebar-box">
+      <div class="sb-title">Site menu</div>
+      <div class="sb-body">
+        <ul>
+          <li><a href="#" onclick="switchTab('home');return false;">Home</a></li>
+          <li><a href="#" onclick="switchTab('grassland');return false;">Resources</a></li>
+          <!-- ★ タブを増やしたらここにも追加 -->
+        </ul>
+      </div>
+    </div>
+    <div class="sidebar-box">
+      <div class="sb-title">Links</div><!-- ★ ボックスタイトル -->
+      <div class="sb-body">
+        <!-- ★ リンクリスト：<li> を複製して追加・削除 -->
+        <ul>
+          <li><a href="https://grassland.think-nature.jp/sources/" target="_blank">Old grassland web viewer</a></li>
+          <li><a href="https://think-nature.jp/en/" target="_blank">Think Nature Inc.</a></li>
+          <li><a href="https://msc.tsukuba.ac.jp/sougen/" target="_blank">About old grasslands [ja]</a></li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+</div>
+</div><!-- /panel-home -->
+
+
+<div id="panel-gis">
+<div class="page-wrap">
+
+  <main class="main-content">
+
+    <h1 class="page-title">Web Viewer</h1><!-- ★ ページタイトル -->
+
+<a href="https://grassland.think-nature.jp/sources/" target="_blank" class="cta-btn">
+  <span class="cta-label">Interactive Map</span>
+  <span class="cta-title">Old Grassland Web Viewer</span>
+  <span class="cta-sub">grassland.think-nature.jp</span>
+</a>
+
+</div>
+</div>
+<!-- /panel-home -->
+
+
+
+<!-- ============================================================
+     タブ②：草原情報
+     編集箇所：各セクションの h2 / p / table の td / figcaption
+============================================================ -->
+<div id="panel-grassland" style="display:none">
+<div class="page-wrap">
+
+  <main class="main-content">
+
+    <h1 class="page-title">Basic statistics of seminatural and other types of grasslands</h1><!-- ★ ページタイトル -->
+    <div class="page-meta">
+      <span>March 29, 2026</span><!-- ★ 更新日 -->
+      <span>Author：Shogo Ikari (Think Nature Inc.)</span><!-- ★ 担当 -->
+      <span>CC-BY 4.0</span><!-- ★ 担当 -->
+    </div>
+
+
+    <h2 id="decrate">Grasslands in Japan</h2>
+
+<p>
+Grasslands are vegetation communities that establish in environments where forest succession is suppressed by a combination of macro- and micro-scale environmental conditions including climate, soils, and topography, as well as disturbance regimes such as fire, wind, wildlife, and waterlogging, and ongoing human management. Although grasslands occupy only a limited area in Japan, they support a diverse assemblage of species, including glacial relicts persisting since the Last Glacial Period, and constitute ecosystems of exceptionally high biodiversity.
+</p>
+<p>
+The natural factors contributing to the establishment and persistence of grasslands in Japan include severe climatic conditions above the timberline, wind exposure on mountain ridges and coastal areas, periodic waterlogging, rocky substrates such as limestone and serpentine that inhibit tree establishment, volcanic soils, and herbivory by wild animals. It should be noted, however, that wild ungulates, primarily sika deer, have increased markedly as a consequence of human-driven ecosystem modification, and now contribute to the formation of degraded grasslands dominated by unpalatable plant species. Anthropogenic factors include traditional grassland management practices such as prescribed burning, mowing, and grazing, as well as unintentional human influences associated with clear-cutting, agricultural abandonment, and post-mining succession.
+</p>
+<p>
+Grassland persistence is maintained by one or more of these factors acting in combination. Among grassland types, semi-natural grasslands refer specifically to those maintained over extended periods in close association with human land use, occurring in relatively productive environments below the timberline and outside wind-exposed zones. Such grasslands range from those established on substrates inherently favorable to grassland formation such as limestone outcrops and volcanic soils in the vicinity of volcanoes, to those whose persistence is largely independent of natural environmental conditions and instead reflects a long history of human resource use. In recent decades, seminatural grasslands in Japan have declined dramatically, driving the rarity of numerous associated species.
+</p>
+    <figure>
+      <div class="img-wrap"><img src="images/f0.png" alt="Figure 1"></div>
+      <figcaption><b>Figure 1</b> Distribution of century-old or older seminatural grasslands in western Honshu and Kyushu region. Old grasslands overlap with area of limestone rock and pyroclastic soil.</figcaption>
+    </figure>
+
+
+    <h2 id="overview">Distribution of old seminatural grasslands</h2>
+    <p>
+Ikari et al. (2026) mapped distribution of seminatural grasslands which are under anthropogenic management for more than 100 years (Figure 2). The study found that the remaining such old seminatural grasslands are less than 60,000 ha in total.
+    </p>
+
+    <!-- ★ 図：.img-wrap の中身を <img src="..." alt="..."> に差し替え、figcaption を編集 -->
+    <figure>
+      <div class="img-wrap"><img src="images/f1.png" alt="Figure 1"></div>
+      <figcaption><b>Figure 2</b> Workflow of century-old seminatural grassland mapping and current distribution of old seminatural grasslands (grasslands larger than 10 ha are mapped).</figcaption>
+    </figure>
+
+    <h2 id="decrate">Decrease rate of century-old grasslands</h2>
+    <p>
+Using the grassland visualization method described in Ikari et al. (2026), the temporal changes in old seminatural grassland area were quantified at each time point (Figure 3; Table 1). The most rapid loss occurred between 1900 and 1976, during which more than 90% of the total area was lost. Over the past 50 years, the area of old seminatural grasslands has approximately halved every 20 years, with a recent annual decline rate of approximately 2.5%. Such a decrease rate are generally comparable to the numbers reported in Inoue et al. (2021), who described the decrease rate of seminatural grassland in Sugadaira highland, Nagano Prefecture, Japna.
+
+Figure 3 shows the temporal changes in grassland area. In addition to old seminatural grasslands, the areas of natural grasslands, secondary grasslands (including those of short continuity), and artificial grasslands are also presented. Here, grasslands are defined as vegetation with a canopy height of 5 m or less. The trajectory of artificial grassland area was calculated by correcting values based on the Vegetation Survey Maps of Japan (1:25,000 and 1:50,000) published by the Ministry of the Environment and the statistics on public pastures and grazing conditions (in Japanese: <a href="https://www.maff.go.jp/j/chikusan/sinko/lin/l_siryo/koukyou_bokujyou.html" target="_blank">公共牧場・放牧をめぐる情勢</a>) published by the Ministry of Agriculture, Forestry and Fisheries.
+
+    </p>
+<div class="table-wrap">
+  <p class="table-caption"><b>Table 1</b> Change in total area of seminatural grasslands with 100 or longer historical continuity.</p>
+  <table>
+    <thead>
+      <tr><th>Year</th><th>Area (×10,000ha)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1850</td><td>407.2</td></tr>
+      <tr><td>1900</td><td>355.6</td></tr>
+      <tr><td>1950</td><td>191.0</td></tr>
+      <tr><td>1976</td><td>24.5</td></tr>
+      <tr><td>1997</td><td>11.2</td></tr>
+      <tr><td>2006</td><td>8.9</td></tr>
+      <tr><td>2022</td><td>5.9</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="2"></td></tr>
+    </tfoot>
+  </table>
+</div>
+
+    <figure>
+      <div class="img-wrap"><img src="images/f2.png" alt="Figure 1"></div>
+      <figcaption><b>Figure 3</b> Temporal change in grassland area in Japan.</figcaption>
+    </figure>
+
+
+    <h2 id="lost">Land cover types replacing lost old seminatural grasslands</h2>
+    <p>
+    Analysis of the fates of lost grasslands revealed that the majority were lost to forestation (Table 2). However, the dominant conversion type varied across time periods. Up to the 1970s, conversion to agricultural land accounted for a notable proportion of grassland loss. Between 1976 and 1997, nearly all grassland loss was attributable to forest encroachment. In recent years, conversion to developed land has increased, while the rate of conversion to plantation forest has declined. The increase in conversion to developed land is likely to reflect a growing trend of land use change for solar panel installations and similar infrastructure.
+    </p>
+<div class="table-wrap">
+  <p class="table-caption"><b>Table 2.</b>
+    Fates of lost grasslands by period (unit: 10³ ha)</p>
+  <table>
+    <thead>
+      <tr>
+        <th rowspan="2">Conversion type</th>
+        <th colspan="2">1900–1976</th>
+        <th colspan="2">1976–1997</th>
+        <th colspan="2">1997–2021</th>
+      </tr>
+      <tr>
+        <th>Area (10³ ha)</th><th>%</th>
+        <th>Area (10³ ha)</th><th>%</th>
+        <th>Area (10³ ha)</th><th>%</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Plantation forest</td> <td>1,731.0</td><td>38.7%</td> <td>56.9</td><td>43.1%</td> <td>9.6</td><td>36.2%</td></tr>
+      <tr><td>Secondary forest</td>  <td>1,631.9</td><td>36.5%</td> <td>61.6</td><td>46.6%</td> <td>13.1</td><td>49.3%</td></tr>
+      <tr><td>Paddy field</td>       <td>480.1</td><td>10.7%</td>  <td>1.3</td><td>1.0%</td>   <td>0.2</td><td>0.6%</td></tr>
+      <tr><td>Cropland / Pasture</td><td>432.9</td><td>9.7%</td>   <td>5.1</td><td>3.9%</td>   <td>0.1</td><td>0.2%</td></tr>
+      <tr><td>Built-up land</td>     <td>183.5</td><td>4.1%</td>   <td>5.5</td><td>4.2%</td>   <td>3.4</td><td>12.8%</td></tr>
+      <tr><td>Golf course etc.</td><td>8.4</td><td>0.2%</td><td>1.8</td><td>1.3%</td> <td>0.3</td><td>1.0%</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="7">1 × 10³ ha = 10 km²</td></tr>
+    </tfoot>
+  </table>
+</div>
+
+    <h2 id="luse">Grassland statistics for Japan</h2>
+
+Statistical information on grasslands in Japan suffers from a lack of consistency across data sources. Table 3 summarizes multiple data sources on the distribution and extent of grasslands in Japan. Each source defines and classifies grasslands differently, which is reflected in the substantial variation in reported grassland area among sources (Figures 4 and 5). Here, temporal continuity of grasslands are not considered.
+
+<div class="table-wrap">
+  <p class="table-caption"><b>Table 3.</b> Data sources on grassland distribution and extent in Japan.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Source</th>
+        <th>Grassland types included</th>
+        <th>Distinction between artificial and non-artificial</th>
+        <th>Classification of natural grasslands</th>
+        <th>Spatial data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Land area by land use category (MILT)</td><td>natural, seminatural, artificial</td><td>no</td><td>no</td><td>no</td></tr>
+      <tr><td>ALOS LULC v25.04</td>                   <td>natural, seminatural, artificial</td><td>no</td><td>no</td><td>yes</td></tr>
+      <tr><td>Vegetation map (MOE)</td>                  <td>natural, seminatural, artificial</td><td>yes</td><td>yes</td><td>yes</td></tr>
+      <tr><td>LUIS</td>                                <td>natural, seminatural</td>            <td>—</td><td>no</td><td>yes</td></tr>
+      <tr><td>Old Grassland Watch</td>                 <td>natural, seminatural, artificial</td><td>yes</td><td>no</td><td>yes</td></tr>
+      <tr><td>Ogura (2006)</td>                        <td>natural, seminatural, artificial</td><td>no</td><td>no</td><td>no</td></tr>
+      <tr><td>Crop Statistics Survey (MAFF)</td>        <td>artificial</td>                     <td>—</td><td>no</td><td>no</td></tr>
+      <tr><td>Current Status of Public Pastures and Grazing (MAFF)</td><td>artificial</td><td>—</td><td>no</td><td>no</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="7">Meanings of abbreviations: MILT; Japanese Ministry of Land, Infrastructure, Transport and Tourism, MOE; Japanese Ministry of Environment and MAFF; Japanese Ministry of Agriculture, Forestry and Fisheries, LUIS; Land Use Information System.</td></tr>
+    </tfoot>
+  </table>
+</div>
+
+    <figure>
+      <div class="img-wrap"><img src="images/f3.png" alt="Figure 1"></div>
+      <figcaption><b>Figure 4</b> Temporal changes in grassland area visualized from different sources. In the compilation of grassland statistics presented here, rocky areas, wetlands, and alpine vegetation are not distinguished from grasslands. Although ALOS LULC and LUIS explicitly distinguish between wetlands and grasslands, the criteria for this distinction are not documented, and considerable confusion between the two categories makes it impractical to treat them as separate in practice. For the MOE vegetation map, two versions are used: the 1:50,000 map produced around 1980 and the 1:25,000 map produced from 1998 onwards. The identification of grasslands from vegetation classification follows Tomitaka et al. (2025), in which vegetation with a canopy height of 5 m or less is treated as grassland, with the exception of subalpine dwarf shrub vegetation. Note that the change in grassland area reported in Ogura (2006) is comparable to that of century-old seminatural grasslands in Old grassland watch rather than total grassland area mapped in vegetation maps or Old grassland watch.</figcaption>
+    </figure>
+
+
+    <figure>
+      <div class="img-wrap"><img src="images/f4.png" alt="Figure 1"></div>
+      <figcaption><b>Figure 5</b> Temporal changes in artificial grasslands. Artificial grasslands include improved pastures (almost entirely comprising introduced forage species), golf courses, and airfields. However, the statistics provided by MAFF cover pastureland only.</figcaption>
+    </figure>
+
+<p>
+Why do the reported grassland statistics vary so markedly? Several reasons can be identified. First, a substantial difference arises depending on whether the statistics were compiled in a bottom-up manner by integrating information from farmers and land managers, or derived from spatially explicit map data. The former approach tends to capture a smaller area than actually exists on the ground. Second, the definition of grassland itself is problematic. Many vegetation types occupy ambiguous positions at the boundary with grassland including post-logging communities, shrubby wetland vegetation, and cliff-face vegetation. The way such ecosystems are classified can substantially alter the final estimates. This boundary problem is particularly pronounced in natural vegetation. Third, the minimum patch size considered (or detectable) also matters. As shown in Figure 3, even within the same data source, aggregation at 100 m resolution versus 10 m resolution yields differences of more than 8% (cf. ALOS LULC v25.04 (10 m) and ALOS LULC v25.04 (100 m)), reflecting the highly fragmented nature of grassland habitats in Japan. It is therefore important to recognize that assessments of grassland distribution and habitat extent are subject to considerable uncertainty. For broad-scale assessments, it is essential to clearly define the criteria used for compilation. For local-scale assessments — such as land use decision-making at the site level — integrating multiple data sources can be an effective approach to mapping important habitats; for example, combining a vegetation map with coarse temporal resolution but fine habitat classification with a land use map derived from satellite imagery with finer temporal resolution. Note that the century-old seminatural grasslands mapped in this project refer specifically to non-flooded vegetation dominated by herbaceous species that have been prevented from succeeding to forest through long-term anthropogenic management.
+</p>
+<h2>References</h2>
+<ul class="ref-list">
+  <!-- ★ <li> を複製して文献を追加 -->
+  <li>ALOS LULC v25.04 (Accessed 2026/03/29) https://www.eorc.jaxa.jp/ALOS/en/index_e.htm</li>
+  <li>Arizono S.(1995). 1.2 Land Use in Japan circa 1850 (pp.4-5), 1.3 Land Use in Japan circa 1900 (pp.6-7), Nishikawa O., Himiyama Y. et al. eds., Atlas - Environmental Change in Modern Japan (in Japanese), Asakura Publishing Co., Ltd.</li>
+  <li>Himiyama Y.(1995). 1.4 Land Use in Japan circa 1950 (pp.8-9), 1.5 Land Use in Japan circa 1985 (pp.10-11), 1.6 Land Use in Japan circa 1900-1985 (pp.12-13), Nishikawa O., Himiyama Y. et al. eds., Atlas - Environmental Change in Modern Japan (in Japanese), Asakura Publishing Co., Ltd. </li>
+  <li>Ikari, S., Tomitaka, M., Kubota, Y., & Kenta, T. (2026). Geospatial data layer of seminatural grasslands with century-old or longer temporal continuity <em>Preprint</em>. https://doi.org/10.22541/au.176784129.94226004/v1</li>
+  <li>Japanese Ministry of Land, Infrastructure, Transport and Tourism Land area by land use category  https://www.mlit.go.jp/kokudoseisaku/kokudoseisaku_fr3_000033.html</li>
+  <li>Japanese Ministry of Environment Vegetation Naturalness Survey/Vegetation Survey (Accessed 2026/03/29) https://www.biodic.go.jp/english/kiso/vg/vg_kiso_e.html</li>
+  <li>Japanese Ministry of Agriculture, Forestry and Fisheries Crop Statistics Survey (Accessed 2026/03/29) https://www.maff.go.jp/j/tokei/kouhyou/sakumotu/menseki/</li>
+  <li>Japanese Ministry of Agriculture, Forestry and Fisheries Current Status of Public Pastures and Grazing (Accessed 2026/03/29) https://www.maff.go.jp/j/chikusan/sinko/lin/l_siryo/attach/pdf/index-1465.pdf</li>
+  <li>Ogura, J. (2006). The transition of grassland area in Japan <em>Journal of Kyoto Seika University</em>, 30, 160–172. </li>
+  <li>Taiki I., Toru O., & Kenta, T. (2021) Qualitative and quantitative analyses of changes in the grassland area in the Sugadaira Highlands, central Japan: A case study of grassland decline in a national park <em>Japanese Journal of Conservation Ecology</em> 26 : 219-228 https://doi.org/10.18960/hozen.2041</li>
+</ul>
+
+  </main>
+
+  <!-- ★ サイドバー（草原情報） -->
+  <aside class="sidebar">
+    <div class="sidebar-box">
+      <div class="sb-title">目次</div>
+      <div class="sb-body">
+        <!-- ★ セクションを追加したらここにも <li> を追加 -->
+        <ol class="toc-list" id="js-toc">
+          <li><a href="#overview">Distribution of old seminatural grasslands</a></li>
+          <li><a href="#decrate">Decrease rate</a></li>
+          <li><a href="#lost">Land cover types replacing lost old seminatural grasslands</a></li>
+          <li><a href="#luse">Grassland statistics for Japan</a></li>
+        </ol>
+      </div>
+    </div>
+    <div class="sidebar-box">
+      <div class="sb-title">Links</div><!-- ★ ボックスタイトル -->
+      <div class="sb-body">
+        <!-- ★ リンクリスト：<li> を複製して追加・削除 -->
+        <ul>
+          <li><a href="https://grassland.think-nature.jp/sources/" target="_blank">Old grassland web viewer</a></li>
+          <li><a href="https://think-nature.jp/en/" target="_blank">Think Nature Inc.</a></li>
+          <li><a href="https://msc.tsukuba.ac.jp/sougen/" target="_blank">About old grasslands [ja]</a></li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+</div>
+</div><!-- /panel-grassland -->
+
+
+<!-- ★ フッター -->
+<footer class="site-footer">
+  Think Nature Inc. &copy; 2026 &nbsp;|&nbsp; All rights reserved.
+</footer>
+
+<script>
+
+  // ── 目次スクロール連動 ──
+  const tocLinks = document.querySelectorAll('#js-toc a');
+  const sections = ['overview','decrate','lost','luse','stats']
+    .map(id => document.getElementById(id)).filter(Boolean);
+
+  function updateToc() {
+    // 草原情報タブが表示中でなければ何もしない
+    if (document.getElementById('panel-grassland').style.display === 'none') return;
+    let current = sections[0];
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 80) current = sec;
+    });
+  }
+  window.addEventListener('scroll', updateToc, { passive: true });
+  updateToc();
+
+  function switchTab(name) {
+    document.querySelectorAll('.gnav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+
+    // ★ タブを増やしたらここに id を追加する
+    ['home', 'grassland', 'gis'].forEach(id => {
+      document.getElementById('panel-' + id).style.display = id === name ? '' : 'none';
+    });
+
+    const bc = document.getElementById('js-breadcrumb');
+    const labels = { home: 'Home', grassland: 'Resources', gis: 'Web Viewer' }; // ★ タブ名を追加
+    bc.innerHTML = name === 'home'
+      ? '<a href="#" onclick="switchTab(\'home\');return false;">Home</a>'
+      : '<a href="#" onclick="switchTab(\'home\');return false;">Home</a> &rsaquo; ' + labels[name];
+  }
+</script>
+
+</body>
+</html>
