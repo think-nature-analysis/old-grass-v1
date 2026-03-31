@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Old grassland watch</title>
+  <title>Old seminatural grasslands in Japan</title>
   <link rel="stylesheet" href="./libs/css/leaflet.css" />
   <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -14,30 +14,30 @@
       <span id="closeButton">&times;</span>
       <div id="info"></div>
       <div id="tabHeader">
-        <button class="tab-btn active" data-tab="info1">info1</button>
-        <button class="tab-btn" data-tab="info2">info2</button>
-        <button class="tab-btn" data-tab="info3">info3</button>
+        <button class="tab-btn active" data-tab="info1">情報1</button>
+        <button class="tab-btn" data-tab="info2">情報2</button>
+        <button class="tab-btn" data-tab="info3">情報3</button>
       </div>
       <div id="info1Tab" class="tab-content active" style="height: 70%;">
         <div class="image-header1">
-          <h3 id="imageTitle1">info panel 1</h3>
+          <h3 id="imageTitle1">詳細情報1</h3>
           <span id="imageTimestamp1"></span>
         </div>
-        <img id="locationImage1" class="tab-info1" src="" alt="">
+        <img id="locationImage1" class="tab-info1" src="" alt="サンプル画像1">
       </div>
       <div id="info2Tab" class="tab-content">
         <div class="image-header2">
-          <h3 id="imageTitle2">info panel 2</h3>
+          <h3 id="imageTitle2">詳細情報2</h3>
           <span id="imageTimestamp2"></span>
         </div>
-        <img id="locationImage2" class="tab-info2" src="" alt="">
+        <img id="locationImage2" class="tab-info2" src="" alt="サンプル画像2">
       </div>
       <div id="info3Tab" class="tab-content">
         <div class="image-header3">
-          <h3 id="imageTitle3">info panel 3</h3>
+          <h3 id="imageTitle3">詳細情報3</h3>
           <span id="imageTimestamp3"></span>
         </div>
-        <img id="locationImage3" class="tab-info3" src="" alt="">
+        <img id="locationImage3" class="tab-info3" src="" alt="サンプル画像3">
       </div>
     </div>
   </div>
@@ -46,29 +46,29 @@
     <div id="homeControl">
       <button id="homeButton">HOME</button>
     </div>
-    <!-- <div id="csvControl">
-      <button id="loadCSVButton" style="visibility: hidden;">CSVからマーカーを追加</button>
-    </div>-->
+    <div id="csvControl">
+      <button id="loadCSVButton">CSVからマーカーを追加</button>
+    </div>
 
     <!-- レイヤー選択コンテナ -->
     <div id="layerSelectionContainer" class="layer-selection">
-      <h3>Grassland area (10km grid)</h3>
+      <h3>レイヤー選択（最大2つ）</h3>
       <div id="layerList" class="layer-list">
         <!-- レイヤーのチェックボックスはJavaScriptで動的に生成 -->
       </div>
     </div>
 
     <!-- アクティブレイヤー設定コンテナ -->
-    <div id="activeLayersContainer" class="active-layers" style="display: none;">
-      <h3>Active layer setting</h3>
+    <div id="activeLayersContainer" class="active-layers">
+      <h3>アクティブレイヤー設定</h3>
       <div id="layer1Settings" class="layer-settings" style="display: none;">
-        <h4 id="layer1Name">Layer 1</h4>
+        <h4 id="layer1Name">レイヤー1</h4>
         <div class="opacity-container">
-          <label for="layer1Opacity">Transparency:</label>
+          <label for="layer1Opacity">透過度:</label>
           <input type="range" id="layer1Opacity" class="opacitySlider" min="0" max="1" step="0.1" value="0.7">
         </div>
         <div class="colormap-container">
-          <label for="layer1Colormap">Color maps:</label>
+          <label for="layer1Colormap">カラーマップ:</label>
           <select id="layer1Colormap" class="colormap-select">
             <option value="Spectral">Spectral</option>
             <option value="gnuplot2">gnuplot2</option>
@@ -88,17 +88,17 @@
           </select>
           <div class="reverse-container">
             <input type="checkbox" id="layer1Reverse" class="reverse-checkbox">
-            <label for="layer1Reverse">Reverse</label>
+            <label for="layer1Reverse">反転</label>
           </div>
         </div>
         <div class="range-container">
           <div class="slider-container">
-            <label for="layer1Min">Min:</label>
+            <label for="layer1Min">最小値:</label>
             <span id="layer1MinDisplay">loading</span>
             <input type="range" id="layer1Min" class="range-slider" min="0" max="1" step="0.01" value="0">
           </div>
           <div class="slider-container">
-            <label for="layer1Max">Max:</label>
+            <label for="layer1Max">最大値:</label>
             <span id="layer1MaxDisplay">loading</span>
             <input type="range" id="layer1Max" class="range-slider" min="0" max="1" step="0.01" value="1">
           </div>
@@ -108,11 +108,11 @@
       <div id="layer2Settings" class="layer-settings" style="display: none;">
         <h4 id="layer2Name">レイヤー2</h4>
         <div class="opacity-container">
-          <label for="layer2Opacity">Transparency:</label>
+          <label for="layer2Opacity">透過度:</label>
           <input type="range" id="layer2Opacity" class="opacitySlider" min="0" max="1" step="0.1" value="0.7">
         </div>
         <div class="colormap-container">
-          <label for="layer2Colormap">Color maps:</label>
+          <label for="layer2Colormap">カラーマップ:</label>
           <select id="layer2Colormap" class="colormap-select">
             <option value="Spectral">Spectral</option>
             <option value="gnuplot2">gnuplot2</option>
@@ -132,17 +132,17 @@
           </select>
           <div class="reverse-container">
             <input type="checkbox" id="layer2Reverse" class="reverse-checkbox">
-            <label for="layer2Reverse">Reverse</label>
+            <label for="layer2Reverse">反転</label>
           </div>
         </div>
         <div class="range-container">
           <div class="slider-container">
-            <label for="layer2Min">Min:</label>
+            <label for="layer2Min">最小値:</label>
             <span id="layer2MinDisplay">loading</span>
             <input type="range" id="layer2Min" class="range-slider" min="0" max="1" step="0.01" value="0">
           </div>
           <div class="slider-container">
-            <label for="layer2Max">Max:</label>
+            <label for="layer2Max">最大値:</label>
             <span id="layer2MaxDisplay">loading</span>
             <input type="range" id="layer2Max" class="range-slider" min="0" max="1" step="0.01" value="1">
           </div>
@@ -184,7 +184,7 @@
 <div id="iframeModal" class="iframe-modal">
     <div class="iframe-modal-content">
         <div class="iframe-modal-header">
-            <span class="iframe-modal-title">Detail</span>
+            <span class="iframe-modal-title">詳細情報</span>
             <span class="iframe-modal-close">&times;</span>
         </div>
         <div class="iframe-modal-body">

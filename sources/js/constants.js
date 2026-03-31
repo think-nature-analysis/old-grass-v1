@@ -12,6 +12,9 @@ const AppConstants = {
     layers: {
         defaultLayerId: '__default__',
         maxSelectable: 2,
+        noDataTolerance: 0.0001,        // NoData値比較の許容誤差
+        defaultResolution: 64,          // デフォルトの表示解像度
+        colorbarVerticalSpacing: 115,   // カラーバーの垂直間隔（ピクセル）
     },
 
     // カラーマップの選択肢

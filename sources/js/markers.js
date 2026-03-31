@@ -17,8 +17,8 @@ const MarkerState = {
  */
 function initMarkerIcons() {
     MarkerIcons.red = L.icon({
-        iconUrl: './assets/markers/marker-icon-2x-red.png',
-        shadowUrl: './assets/markers/marker-shadow.png',
+        iconUrl: './libs/markers/marker-icon-2x-red.png',
+        shadowUrl: './libs/markers/marker-shadow.png',
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
@@ -309,7 +309,7 @@ async function getMarkerInfo(lat, lon, name, id = null) {
         return {
             lat,
             lon,
-            name: name || `Loc(${lat.toFixed(4)}, ${lon.toFixed(4)})`,
+            name: name || `地点(${lat.toFixed(4)}, ${lon.toFixed(4)})`,
             id: id,
             layerValues,
             vectorFeatures,

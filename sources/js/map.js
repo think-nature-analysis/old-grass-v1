@@ -20,11 +20,13 @@ function initMap() {
 
     map.setView(mapConfig.center, mapConfig.zoom);
 
+    // テスト環境でのマップ初期化完了を通知するフラグ
+    map.whenReady(() => { window.__mapReady = true; });
+
     tileLayer = L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         {
             attribution: '© OpenStreetMap contributors',
-            opacity: 0.75
         }
     ).addTo(map);
 
@@ -94,6 +96,15 @@ function initMap() {
             console.error('マップクリック処理中にエラーが発生しました:', error);
             cancelCurrentLoading();
         }
+    });
+
+    // ズーム・パン完了後にLeafletが付与するwill-change: transformを解除する。
+    // Firefox/EdgeはCSSのwill-changeによるGPUレイヤーをGCしないため、
+    // ズームのたびにVRAMが積み上がりクラッシュする既知の問題への対処。
+    map.on('zoomend moveend', function () {
+        document.querySelectorAll('.leaflet-tile-container, .leaflet-zoom-animated').forEach(el => {
+            el.style.willChange = 'auto';
+        });
     });
 }
 
@@ -252,8 +263,8 @@ function initGeocoderControl() {
     const geocodingControl = L.Control.geocoder({
         geocoder: geocoder,
         position: 'topleft',
-        placeholder: 'Input address, coordinates etc.(e.g., 35.0,139.0)',
-        errorMessage: 'Address not found',
+        placeholder: '住所または座標を入力(例:35.0,139.0)',
+        errorMessage: '住所が見つかりませんでした',
         showResultIcons: true,
         collapsed: false,
         defaultMarkGeocode: false,

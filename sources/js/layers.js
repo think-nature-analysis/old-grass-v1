@@ -6,6 +6,7 @@ const LayerState = {
     active: [], // 現在アクティブなレイヤーのIDを保持する配列（最大2つ）
     colorMaps: {}, // レイヤーごとのカラーマップ設定
     valueRange: {}, // レイヤーごとの値範囲設定
+    noDataValues: {}, // レイヤーごとのNoData値
     colorbarElements: {}, // カラーバー要素を保持するオブジェクト
 };
 
@@ -18,7 +19,6 @@ const LayerState = {
 async function loadLayerConfig() {
     console.log('[Raster] レイヤー設定読み込み開始');
     try {
-        // 設定ファイルを読み込む
         const response = await fetch(AppConstants.urls.layersConfig);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -37,7 +37,7 @@ async function loadLayerConfig() {
         return config;
     } catch (error) {
         console.error('[Raster] レイヤー設定の読み込みに失敗:', error);
-        alert('レイヤー設定の読み込みに失敗しました。');
+        ErrorHandler.showUserError('レイヤー設定の読み込みに失敗しました。');
     }
 }
 
@@ -194,7 +194,7 @@ function handleLayerSelection(e) {
         // 最大選択数を超える場合は選択を解除
         if (currentSelectedLayers.length > AppConstants.layers.maxSelectable) {
             e.target.checked = false;
-            alert(
+            ErrorHandler.showUserError(
                 `レイヤーは最大${AppConstants.layers.maxSelectable}つまで選択できます。`
             );
             return;
@@ -413,6 +413,60 @@ function updateLayerColormap(layerId, panelIndex) {
 }
 
 /**
+ * ピクセル値から色への変換関数を生成
+ * @param {string} layerId - レイヤーID
+ * @param {number} noDataValue - NoData値
+ * @param {string} colormap - カラーマップ名（省略時はLayerStateから取得）
+ * @param {boolean} reverse - カラーマップを反転するか（省略時はfalse）
+ * @returns {Function} ピクセル値を色に変換する関数
+ */
+function createPixelValuesToColorFn(layerId, noDataValue, colormap, reverse) {
+    // カラーマップが指定されていない場合はLayerStateから取得
+    if (!colormap) {
+        colormap = LayerState.colorMaps[layerId] || 'viridis';
+    }
+
+    // 反転フラグが指定されていない場合はfalse
+    if (reverse === undefined) {
+        reverse = false;
+    }
+
+    return (values) => {
+        const value = values[0]; // 最初のバンドの値を使用
+
+        // NoData値の場合は透明にする（NaNの場合も含む）
+        if (value === null || value === undefined ||
+            (typeof noDataValue === 'number' && isNaN(noDataValue) && isNaN(value)) ||
+            value === noDataValue) {
+            return 'rgba(0, 0, 0, 0)';
+        }
+
+        // 値が範囲外（極端に小さい値）の場合も透明にする
+        // 多くのGeoTIFFでは-9999や-3.4e38などが欠損値として使われる
+        if (value < -9000 || !isFinite(value)) {
+            return 'rgba(0, 0, 0, 0)';
+        }
+
+        // 値範囲を取得
+        const range = LayerState.valueRange[layerId];
+        if (!range) {
+            return 'rgba(0, 0, 0, 0)';
+        }
+
+        // 値を0-1の範囲に正規化
+        let normalizedValue = (value - range.min) / (range.max - range.min);
+
+        // 範囲外の値をクリップ
+        normalizedValue = Math.max(0, Math.min(1, normalizedValue));
+
+        // カラーマップを評価して色を取得
+        const [r, g, b] = evaluate_cmap(normalizedValue, colormap, !reverse);
+
+        return `rgb(${r}, ${g}, ${b})`;
+    };
+}
+
+/**
  * レイヤーを読み込む
  * @param {string} layerId - レイヤーID
  * @returns {Promise<void>}
@@ -470,94 +524,131 @@ function loadLayer(layerId) {
                 throw new Error(`レイヤー ${layerId} の設定が見つかりません。`);
             }
 
-            // レイヤーを読み込む
-            return fetch(layerConfig.url)
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(
-                            `HTTP error! status: ${response.status}`
-                        );
-                    }
-                    return response.arrayBuffer();
-                })
-                .then((arrayBuffer) => {
-                    return parseGeoraster(arrayBuffer).then((georaster) => {
-                        const min = georaster.mins[0];
-                        const max = georaster.maxs[0];
+            // レイヤーを読み込む（URL直接渡しでCOG最適化を有効化）
+            const fullUrl = new URL(layerConfig.url, window.location.href).href;
+            console.log(`[Raster] 読み込み URL: ${fullUrl}`);
 
-                        // 値範囲を初期化（レイヤーの実際の最小値と最大値を使用）
-                        if (!LayerState.colorMaps[layerId]) {
-                            LayerState.colorMaps[layerId] =
-                                layerConfig.defaultColormap;
+            // URL直接渡しでparseGeorasterを呼び出し（COGの部分読み込みを有効化）
+            return parseGeoraster(fullUrl)
+                .then((georaster) => {
+                    // URL渡しの場合、georaster.mins/maxsが存在しない可能性がある
+                    if (!georaster.mins || !georaster.maxs) {
+                        // 設定ファイルにmin/maxが指定されている場合はそれを使用
+                        if (layerConfig.minValue !== undefined && layerConfig.maxValue !== undefined) {
+                            georaster.mins = [layerConfig.minValue];
+                            georaster.maxs = [layerConfig.maxValue];
+                            georaster.ranges = [layerConfig.maxValue - layerConfig.minValue];
+                            return georaster;
                         }
 
-                        // 常にレイヤーの実際の最小値と最大値を初期値として設定
-                        LayerState.valueRange[layerId] = { min: min, max: max };
+                        // 設定ファイルにもない場合は全データを取得してmin/maxを計算
+                        console.warn('[Raster] メタデータが存在せず、設定ファイルにも指定がありません');
+                        console.warn('[Raster] 全データを読み込んでmin/maxを計算します（時間がかかります）');
+                        console.warn('[Raster] data_list.jsonにminValue/maxValueを設定することを推奨します');
 
-                        // ピクセル値から色への変換関数
-                        const pixelValuesToColorFn = function (pixelValues) {
-                            const pixelValue = pixelValues[0];
-                            if (
-                                pixelValue === null ||
-                                pixelValue === undefined ||
-                                isNaN(pixelValue)
-                            )
-                                return null;
-
-                            // 現在の値範囲を使用
-                            const currentMin = LayerState.valueRange[layerId].min;
-                            const currentMax = LayerState.valueRange[layerId].max;
-                            const currentRange = currentMax - currentMin;
-
-                            // 値がカスタムレンジ内かチェック
-                            if (pixelValue < currentMin) {
-                                // 最小値未満はカラーマップの最小値側の色を使用
-                                const [r, g, b] = evaluate_cmap(
-                                    0,
-                                    LayerState.colorMaps[layerId],
-                                    true
-                                );
-                                return `rgb(${r}, ${g}, ${b})`;
-                            }
-                            if (pixelValue > currentMax) {
-                                // 最大値超過はカラーマップの最大値側の色を使用
-                                const [r, g, b] = evaluate_cmap(
-                                    1,
-                                    LayerState.colorMaps[layerId],
-                                    true
-                                );
-                                return `rgb(${r}, ${g}, ${b})`;
-                            }
-
-                            // カスタムレンジ内の値をスケーリング
-                            const scaledValue =
-                                (pixelValue - currentMin) / currentRange;
-                            const [r, g, b] = evaluate_cmap(
-                                scaledValue,
-                                LayerState.colorMaps[layerId],
-                                true
-                            );
-                            return `rgb(${r}, ${g}, ${b})`;
+                        const options = {
+                            left: 0,
+                            top: 0,
+                            right: georaster.width,
+                            bottom: georaster.height,
+                            width: georaster.width,
+                            height: georaster.height
                         };
 
-                        const layer = new GeoRasterLayer({
-                            georaster: georaster,
-                            opacity: layerConfig.defaultOpacity,
-                            pixelValuesToColorFn: pixelValuesToColorFn,
-                            resolution: 256,
+                        return georaster.getValues(options).then(values => {
+                            // min/maxを計算
+                            let min = Infinity;
+                            let max = -Infinity;
+                            const bandValues = values[0];
+
+                            for (let i = 0; i < bandValues.length; i++) {
+                                for (let j = 0; j < bandValues[i].length; j++) {
+                                    const val = bandValues[i][j];
+                                    if (val !== null && val !== undefined && isFinite(val) && val !== georaster.noDataValue) {
+                                        if (val < min) min = val;
+                                        if (val > max) max = val;
+                                    }
+                                }
+                            }
+
+                            if (!isFinite(min) || !isFinite(max)) {
+                                console.warn('[Raster] 有効な値が見つかりません。デフォルト範囲 [0, 1] を使用します');
+                                min = 0;
+                                max = 1;
+                            }
+
+                            // georasterにmin/maxを追加
+                            georaster.mins = [min];
+                            georaster.maxs = [max];
+                            georaster.ranges = [max - min];
+
+                            console.log(`[Raster] 計算されたmin/max: ${min} / ${max}`);
+
+                            return georaster;
                         });
+                    }
 
-                        // レイヤーをマップに追加
-                        layer.addTo(map);
+                    return georaster;
+                })
+                .then((georaster) => {
+                    let min = georaster.mins[0];
+                    let max = georaster.maxs[0];
 
-                        // 読み込まれたレイヤーを保存
-                        LayerState.loaded[layerId] = layer;
+                    // min/maxが無限値の場合、デフォルト値を使用
+                    if (!isFinite(min) || !isFinite(max)) {
+                        console.warn('[Raster] 無限値が検出されました。デフォルト範囲 [0, 1] を使用します');
+                        console.warn('[Raster] データ作成時に適切なmin/max値を設定することを推奨します');
+                        min = 0;
+                        max = 1;
+                    }
 
-                        console.log(`[Raster] レイヤー読み込み完了: ${layerId}`);
+                    // 値範囲を初期化（レイヤーの実際の最小値と最大値を使用）
+                if (!LayerState.colorMaps[layerId]) {
+                    LayerState.colorMaps[layerId] =
+                        layerConfig.defaultColormap;
+                }
 
-                        return layer;
+                // 常にレイヤーの実際の最小値と最大値を初期値として設定
+                LayerState.valueRange[layerId] = { min: min, max: max };
+
+                // NoData値を保存
+                const noDataValue = georaster.noDataValue;
+                LayerState.noDataValues[layerId] = noDataValue;
+
+                // ピクセル値から色への変換関数を生成
+                const pixelValuesToColorFn = createPixelValuesToColorFn(layerId, noDataValue);
+
+            const layer = new GeoRasterLayer({
+                georaster: georaster,
+                sourceUrl: fullUrl,  // COG対応: 部分読み込みを有効化
+                opacity: layerConfig.defaultOpacity,
+                pixelValuesToColorFn: pixelValuesToColorFn,
+                resolution: AppConstants.layers.defaultResolution,
+                // MEMO: updateWhenZooming: true にするとズーム中も段階的に描画され見た目がスムーズになる。
+                // caching: false の状態では古いタイルが再利用されないため、trueにしても混在は起きない。
+                updateWhenZooming: true,
+                // MEMO: updateWhenIdle: false にすると地図が静止するのを待たず即描画する。
+                // true にすると静止後に描画開始するため遅く感じる。
+                updateWhenIdle: false,
+                // MEMO: 画面外タイルの先読みバッファ量。大きいほどズーム・パン時にスムーズになるが描画負荷も増える。
+                // COG URL読み込み時にライブラリが内部で推奨する値が16のため合わせている。
+                keepBuffer: 16,
+                // MEMO: タイルのレンダリング結果をキャッシュするかどうか。
+                // true（デフォルト）にすると古いズームレベルのタイルがキャッシュに残り、
+                // ズームアウト時に異なるズームレベルのタイルが混在する問題が発生するため false にしている。
+                caching: false,
+            });
+
+            // レイヤーをマップに追加
+            layer.addTo(map);
+
+            // 読み込まれたレイヤーを保存
+            LayerState.loaded[layerId] = layer;
+
+            console.log(`[Raster] レイヤー読み込み完了: ${layerId}`);
+
+            return layer;
                     });
-                });
         });
 }
 
@@ -595,44 +686,23 @@ function updateLayerStyle(
     const georaster = layer.georasters[0];
     const opacity = layer.options.opacity;
 
+    // NoData値を取得
+    const noDataValue = LayerState.noDataValues[layerId];
+
+    // ピクセル値から色への変換関数を生成
+    const pixelValuesToColorFn = createPixelValuesToColorFn(layerId, noDataValue, colormap, reverse);
+
     // 新しいレイヤーを作成
     const newLayer = new GeoRasterLayer({
         georaster: georaster,
         opacity: opacity,
-        pixelValuesToColorFn: function (pixelValues) {
-            const pixelValue = pixelValues[0];
-            if (
-                pixelValue === null ||
-                pixelValue === undefined ||
-                isNaN(pixelValue)
-            )
-                return null;
-
-            // 値がカスタムレンジ外の場合
-            if (pixelValue < minValue) {
-                // 最小値未満はカラーマップの最小値側の色を使用
-                const [r, g, b] = reverse
-                    ? evaluate_cmap(0, colormap, false)
-                    : evaluate_cmap(0, colormap, true);
-                return `rgb(${r}, ${g}, ${b})`;
-            }
-            if (pixelValue > maxValue) {
-                // 最大値超過はカラーマップの最大値側の色を使用
-                const [r, g, b] = reverse
-                    ? evaluate_cmap(1, colormap, false)
-                    : evaluate_cmap(1, colormap, true);
-                return `rgb(${r}, ${g}, ${b})`;
-            }
-
-            // カスタムレンジ内の値をスケーリング
-            const scaledPixelValue =
-                (pixelValue - minValue) / (maxValue - minValue);
-            const [r, g, b] = reverse
-                ? evaluate_cmap(scaledPixelValue, colormap, false)
-                : evaluate_cmap(scaledPixelValue, colormap, true);
-            return `rgb(${r}, ${g}, ${b})`;
-        },
-        resolution: 256,
+        pixelValuesToColorFn: pixelValuesToColorFn,
+        resolution: AppConstants.layers.defaultResolution,
+        // MEMO: 各オプションの意味はloadLayer内のGeoRasterLayer生成箇所のコメントを参照
+        updateWhenZooming: true,
+        updateWhenIdle: false,
+        keepBuffer: 16,
+        caching: false,
     });
 
     // 新しいレイヤーをマップに追加
@@ -767,7 +837,7 @@ function createColorbarElement(min, max, layerName, colormap, reverse, layerId) 
     colorbarContainer.dataset.position = positionIndex.toString(); // 位置情報を保存
     colorbarContainer.style.cssText = `
         position: absolute;
-        top: ${controlsRect.top + positionIndex * 115}px;
+        top: ${controlsRect.top + positionIndex * AppConstants.layers.colorbarVerticalSpacing}px;
         left: ${controlsRect.right + 10}px;
         padding: 5px;
         border-radius: 5px;
@@ -845,7 +915,7 @@ function updateColorbarPositions() {
             const positionIndex = index; // LayerState.active内の順序を使用
 
             // 位置を更新
-            colorbar.style.top = `${controlsRect.top + positionIndex * 115}px`;
+            colorbar.style.top = `${controlsRect.top + positionIndex * AppConstants.layers.colorbarVerticalSpacing}px`;
             colorbar.dataset.position = positionIndex.toString();
         }
     });

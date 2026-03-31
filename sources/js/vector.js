@@ -139,7 +139,7 @@ function addVectorControlPanel() {
 
     // GeoJSON読み込みボタンの表示制御とプロパティ選択機能の表示制御を分離
     let htmlContent = `
-        <h3>Priority layers</h3>
+        <h3>ベクターレイヤー</h3>
         <div id="vectorLayerListContainer">
             <div id="vectorLayerList" class="vector-layer-list"></div>
         </div>
@@ -149,7 +149,7 @@ function addVectorControlPanel() {
     if (isFeatureEnabled('vectorLayers.loadGeojson')) {
         htmlContent += `
         <div class="vector-controls">
-            <button id="loadGeoJSONButton" class="btn-small" style="visibility: hidden;">GeoJSONファイルを読み込む</button>
+            <button id="loadGeoJSONButton" class="btn-small">GeoJSONファイルを読み込む</button>
         </div>
         `;
     }
@@ -160,16 +160,16 @@ function addVectorControlPanel() {
         <div id="vectorLayerSettings" class="vector-layer-settings" style="display: none;">
             <h4 id="activeVectorLayerName">レイヤー設定</h4>
             <div class="settings-group">
-                <label for="vectorPropertySelect">Presentation property:</label>
+                <label for="vectorPropertySelect">表示プロパティ:</label>
                 <select id="vectorPropertySelect" class="colormap-select"></select>
             </div>
             <div id="numericControls" style="display: none;">
                 <div class="settings-group">
-                    <label for="vectorColormap">Color maps:</label>
+                    <label for="vectorColormap">カラーマップ:</label>
                     <select id="vectorColormap" class="colormap-select"></select>
                 </div>
                 <div class="settings-group">
-                    <label for="vectorOpacity">Transparency:</label>
+                    <label for="vectorOpacity">透明度:</label>
                     <input type="range" id="vectorOpacity" min="0" max="1" step="0.1" value="0.7" class="opacitySlider">
                 </div>
                 <div class="settings-group">
@@ -181,25 +181,25 @@ function addVectorControlPanel() {
                 <div class="settings-group">
                     <label>値範囲:</label>
                     <div class="range-inputs">
-                        <input type="number" id="vectorMinValue" class="vector-range-input" placeholder="Min">
-                        <input type="number" id="vectorMaxValue" class="vector-range-input" placeholder="Max">
+                        <input type="number" id="vectorMinValue" class="vector-range-input" placeholder="最小値">
+                        <input type="number" id="vectorMaxValue" class="vector-range-input" placeholder="最大値">
                     </div>
-                    <button id="vectorApplyRange" class="btn-small">Apply</button>
-                    <button id="vectorResetRange" class="btn-small">Reset</button>
+                    <button id="vectorApplyRange" class="btn-small">適用</button>
+                    <button id="vectorResetRange" class="btn-small">リセット</button>
                 </div>
             </div>
             <div id="categoricalControls" style="display: none;">
                 <div class="settings-group">
-                    <label for="vectorCategoryPalette">Color maps:</label>
+                    <label for="vectorCategoryPalette">カラーパレット:</label>
                     <select id="vectorCategoryPalette" class="colormap-select"></select>
                 </div>
                 <div class="settings-group">
-                    <label for="vectorCategoryOpacity">Transparency:</label>
+                    <label for="vectorCategoryOpacity">透明度:</label>
                     <input type="range" id="vectorCategoryOpacity" min="0" max="1" step="0.1" value="0.7" class="opacitySlider">
                 </div>
             </div>
             <div class="settings-group">
-                <button id="closeVectorSettings" class="btn-small">Colose</button>
+                <button id="closeVectorSettings" class="btn-small">閉じる</button>
             </div>
         </div>
         `;
@@ -540,7 +540,7 @@ function processGeoJSONData(
     } else {
         // カテゴリ型の場合はカテゴリカラーを生成
         const categories = extractCategories(geojsonData, defaultProperty);
-        const categoryColors = generateCategoryColors(categories, layerConfig.defaultColormap);
+        const categoryColors = generateCategoryColors(categories);
         VectorState.categoryColors[layerId] = categoryColors.colors;
         VectorState.categoryPalettes[layerId] = categoryColors.paletteName;
     }
@@ -658,7 +658,7 @@ function generateCategoryColors(categories, paletteName = 'colorful') {
         // カラーパレットを複数用意
         colorful: [
             '#e41a1c',
-            '#eecc00',
+            '#377eb8',
             '#4daf4a',
             '#984ea3',
             '#ff7f00',
@@ -685,8 +685,8 @@ function generateCategoryColors(categories, paletteName = 'colorful') {
             '#ffed6f',
         ],
         dark: [
-            '#222222',
-            '#AAAAAA',
+            '#1b9e77',
+            '#d95f02',
             '#7570b3',
             '#e7298a',
             '#66a61e',
@@ -833,9 +833,10 @@ async function createVectorLayer(
                     geojsonData,
                     initialPropertyField
                 );
-                const categoryColors = generateCategoryColors(categories, layerConfig.defaultColormap);
+                const categoryColors = generateCategoryColors(categories);
                 VectorState.categoryColors[layerId] = categoryColors.colors;
-                VectorState.categoryPalettes[layerId] =categoryColors.paletteName;
+                VectorState.categoryPalettes[layerId] =
+                    categoryColors.paletteName;
             } else {
                 // 数値型の場合は値範囲を計算
                 const valueRange = calculatePropertyRange(
@@ -846,11 +847,11 @@ async function createVectorLayer(
 
                 // デフォルトカラーマップを設定
                 if (layerConfig && layerConfig.defaultColormap) {
-                    VectorState.colorMaps[layerId] =layerConfig.defaultColormap;
+                    VectorState.colorMaps[layerId] =
+                        layerConfig.defaultColormap;
                 } else {
                     VectorState.colorMaps[layerId] = 'viridis';
                 }
-                
             }
         }
     }
@@ -1560,7 +1561,7 @@ function changeVectorProperty() {
         const categories = extractCategories(geojsonData, propertyName);
 
         // カテゴリごとに色を生成
-        const categoryColors = generateCategoryColors(categories, layerConfig.defaultColormap);
+        const categoryColors = generateCategoryColors(categories);
         VectorState.categoryColors[layerId] = categoryColors.colors;
         VectorState.categoryPalettes[layerId] = categoryColors.paletteName;
 
