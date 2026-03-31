@@ -54,7 +54,7 @@
   .gnav-tab.active { background: var(--inst); color: #fff; border-bottom-color: #fff; }
 
   .page-wrap { max-width: var(--max-w); margin: 1.5rem auto; padding: 0 1rem; display: grid; grid-template-columns: 1fr 220px; gap: 1.5rem; align-items: start; }
-  .main-content { background: var(--bg); border: 1px solid var(--rule); padding: 1.8rem 2rem; }
+  .main-content { background: var(--bg); border: 1px solid var(--rule); padding: 1.8rem 2rem; min-width: 0; }
   .page-title { font-size: 1.2rem; font-weight: 500; color: var(--inst-dark); border-bottom: 2px solid var(--inst); padding-bottom: 0.5em; margin-bottom: 1.4rem; }
   .page-meta { font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 1.4rem; display: flex; gap: 1.4rem; }
 
@@ -63,7 +63,7 @@
   p { font-size: 0.88rem; color: var(--ink-mid); margin-bottom: 0.9rem; line-height: 1.85; }
 
 figure { margin: 1.4rem 0; }
-.img-wrap { width: 100%; background: #dde8dd; border: 1px solid var(--rule); line-height: 0; }
+.img-wrap { width: 100%; max-width: 100%; overflow: hidden; background: #dde8dd; border: 1px solid var(--rule); line-height: 0; }
 .img-wrap img { width: 100%; height: auto; display: block; }
 .img-wrap:not(:has(img)) { aspect-ratio: 16 / 7; display: flex; align-items: center; justify-content: center; color: var(--ink-soft); font-size: 0.78rem; line-height: 1.4; }
   figcaption { font-size: 0.76rem; color: var(--ink-soft); margin-top: 0.3em; line-height: 1.6; }
@@ -122,7 +122,7 @@ figure { margin: 1.4rem 0; }
     background: var(--inst-pale);
   }
 
-  @media (max-width: 684px) {
+  @media (max-width: 768px) {
     .page-wrap {
       grid-template-columns: 1fr;
       padding: 0 0.6rem;
