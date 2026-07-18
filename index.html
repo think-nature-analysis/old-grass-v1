@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Old grassland watch by Think Nature</title><!-- ★ タイトル -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>Think Natureによる古草原情報</title><link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -101,7 +100,7 @@ figure { margin: 1.4rem 0; }
   .sb-body ol, .sb-body ul { padding-left: 1.3em; }
   .sb-body li { margin: 0.2em 0; }
   .sb-body a { font-size: 0.78rem; }
-  .sb-body .updated { font-size: 0.7rem; color: var(--ink-soft); margin-top: 0.5em; }
+  .sb-body .updated { font-size: 0.7 r; color: var(--ink-soft); margin-top: 0.5em; }
 
   .site-footer { background: var(--inst-dark); color: rgba(255,255,255,0.65); text-align: center; font-size: 0.72rem; padding: 1.2rem; margin-top: 2rem; }
 
@@ -169,175 +168,146 @@ figure { margin: 1.4rem 0; }
 </head>
 <body>
 
-<!-- ★ 上部バー：組織名とパンくず -->
 <div class="topbar">
-  <span class="org"></span><!-- ★ 組織名 -->
-  <span class="breadcrumb" id="js-breadcrumb">
-    <a href="#" onclick="switchTab('home');return false;">Home</a>
+  <span class="org"></span><span class="breadcrumb" id="js-breadcrumb">
+    <a href="#" onclick="switchTab('home');return false;">ホーム</a>
   </span>
 </div>
 
-<!-- ★ サイトヘッダー：ロゴと組織名 -->
 <header class="site-header">
   <div class="site-header-inner">
-    <div class="logo-mark">🌿</div><!-- ★ ロゴ（絵文字 or <img>に差し替え） -->
-    <div>
-      <h1>Japanese Old Grassland Watch</h1><!-- ★ 組織名（日本語） -->
-      <div class="eng">Powerd by Think Nature Inc.</div><!-- ★ 組織名（英語） -->
-    </div>
+    <div class="logo-mark">🌿</div><div>
+      <h1>日本の古草原ウォッチ - Japanese Old Grassland Watch</h1><div class="eng">Powered by Think Nature Inc.</div></div>
   </div>
 </header>
 
-<!-- ★ タブナビ：タブを増やす場合はここに <button> を追加 -->
 <nav class="gnav">
   <div class="gnav-inner">
-    <button class="gnav-tab active" id="tab-home"      onclick="switchTab('home')">Home</button>
-    <button class="gnav-tab"        id="tab-grassland" onclick="switchTab('grassland')">Resources</button>
-    <button class="gnav-tab"        id="tab-gis" onclick="switchTab('gis')">Web Viewer</button>
+    <button class="gnav-tab active" id="tab-home"      onclick="switchTab('home')">ホーム</button>
+    <button class="gnav-tab"        id="tab-grassland" onclick="switchTab('grassland')">日本の草原について</button>
+    <button class="gnav-tab"        id="tab-gis" onclick="switchTab('gis')">ウェブビューアー</button>
   </div>
 </nav>
 
 
-<!-- ============================================================
-     タブ①：ホーム
-     編集箇所：.home-lead / お知らせリスト / 研究概要の p タグ
-============================================================ -->
 <div id="panel-home">
 <div class="page-wrap">
 
   <main class="main-content">
 
-    <h1 class="page-title">Welcome to Japanese Old Grassland Watch</h1><!-- ★ ページタイトル -->
+    <h1 class="page-title">日本の古草原ウォッチへようこそ</h1><div class="home-lead">
+      私たちは、半自然草原を中心に、日本全国規模における草原の時空間動態に関する空間情報および統計情報をまとめています。
+      <br> English page is <a href="index_en.html">here</a>.
+    </div>
 
-    <!-- ★ リード文 -->
-    <div class="home-lead">
-	We are compiling spatial and statistical information on the spatio-temporal dynamics of grasslands at the national scale in Japan, with a focus on seminatural grasslands.    </div>
 
-    <h2>What are old seminatural grasslands?</h2>
+    <h2>歴史の古い草原（古草原）とは何か？</h2>
 
-    <!-- ★ 図：.img-wrap の中身を <img src="..." alt="..."> に差し替え、figcaption を編集 -->
     <figure>
       <div class="img-wrap"><img src="ac3.png" alt="historically grasslands near paddy fields"></div>
-      <figcaption><b>Figure 1</b> A historically grassland patch near paddy fields.</figcaption>
+      <figcaption><b>図1</b> 水田の近くにある、歴史的に古い草原。</figcaption>
     </figure>
 
-    <!-- ★ 本文：p タグを増減して編集 -->
     <p>
-Recent research has revealed that seminatural grasslands in Japan, those that have been continuously managed by humans over long periods, represent ecosystems that differ markedly from both natural grasslands and secondary grasslands with shorter management histories. 
-Such an importance have not been recognized broadly. Reflecting this, the distribution of such old seminatural grasslands has never previously been visualized. This page presents the results of such a visualization. The data layer for grasslands with a continuity of 100 years or more is interactively visible <a href="https://grassland.think-nature.jp/sources/" target="_blank">here</a> and available for download here (<a href="https://zenodo.org/records/18131104" target="_blank">zenodo.org/records/18131104</a>).    </p>
+      近年の研究により、長期間にわたって人間による管理が継続されてきた日本の「半自然草原」は、原生的な自然草原や、成立からの期間が短い二次的草原のいずれとも著しく異なる生態系であることが明らかになってきました。
+      一方で、このような重要性は広く認識されていませんでした。これを反映して、こうした歴史の古い半自然草原の分布は、これまで可視化されたことがありませんでした。
+      日本の古草原ウォッチでは、100年以上の継続期間を持つ草原の日本全国における分布情報を作成しています。このページでは、その可視化の結果を公開しています。100年以上の継続性を持つ草原のデータレイヤーは、<a href="https://grassland.think-nature.jp/sources/" target="_blank">こちらのサイト</a>から閲覧でき、またこちら（<a href="https://zenodo.org/records/18131104" target="_blank">zenodo.org/records/18131104</a>）からダウンロード可能です。    </p>
 
 <p>
-<b>This webpage includes research outcomes supported by</b> Environment Research and Technology Development Fund (JPMEERF20234005) of the Environmental Restoration and Conservation Agency provided by Ministry of the Environment of Japan; <br>
-(In Japanese) 環境研究総合推進費環境問題対応型研究　課題番号：【4-2305】　2023～2025年度
+<b>本ウェブページには、以下の研究成果が含まれています：</b> </br>
+環境研究総合推進費環境問題対応型研究　課題番号：【4-2305】　2023～2025年度
 研究課題： 歴史が生み出す二次的自然のホットスポット：環境価値と保全効果の「見える化」
 </p>
   </main>
 
-  <!-- ★ サイドバー（ホーム） -->
   <aside class="sidebar">
     <div class="sidebar-box">
-      <div class="sb-title">Site menu</div>
+      <div class="sb-title">サイトメニュー</div>
       <div class="sb-body">
         <ul>
-          <li><a href="#" onclick="switchTab('home');return false;">Home</a></li>
-          <li><a href="#" onclick="switchTab('grassland');return false;">Resources</a></li>
-          <!-- ★ タブを増やしたらここにも追加 -->
-        </ul>
+          <li><a href="#" onclick="switchTab('home');return false;">ホーム</a></li>
+          <li><a href="#" onclick="switchTab('grassland');return false;">日本の草原について</a></li>
+          </ul>
       </div>
     </div>
     <div class="sidebar-box">
-      <div class="sb-title">Links</div><!-- ★ ボックスタイトル -->
-      <div class="sb-body">
-        <!-- ★ リンクリスト：<li> を複製して追加・削除 -->
+      <div class="sb-title">リンク</div><div class="sb-body">
         <ul>
-          <li><a href="https://grassland.think-nature.jp/sources/" target="_blank">Old grassland web viewer</a></li>
-          <li><a href="https://think-nature.jp/en/" target="_blank">Think Nature Inc.</a></li>
-          <li><a href="https://msc.tsukuba.ac.jp/sougen/" target="_blank">About old grasslands [ja]</a></li>
+          <li><a href="https://grassland.think-nature.jp/sources/" target="_blank">半自然草原ウェブビューアー</a></li>
+          <li><a href="https://think-nature.jp/en/" target="_blank">株式会社シンク・ネイチャー</a></li>
+          <li><a href="https://msc.tsukuba.ac.jp/sougen/" target="_blank">歴史が古い草原</a></li>
         </ul>
       </div>
     </div>
   </aside>
 
 </div>
-</div><!-- /panel-home -->
-
-
-<div id="panel-gis">
+</div><div id="panel-gis">
 <div class="page-wrap">
 
   <main class="main-content">
 
-    <h1 class="page-title">Web Viewer</h1><!-- ★ ページタイトル -->
-
-<a href="https://grassland.think-nature.jp/sources/" target="_blank" class="cta-btn">
-  <span class="cta-label">Interactive Map</span>
-  <span class="cta-title">Old Grassland Web Viewer</span>
+    <h1 class="page-title">ウェブビューアー</h1><a href="https://grassland.think-nature.jp/sources/" target="_blank" class="cta-btn">
+  <span class="cta-label">インタラクティブ・マップ</span>
+  <span class="cta-title">半自然草原ウェブビューアー</span>
   <span class="cta-sub">grassland.think-nature.jp</span>
 </a>
 
+  </main>
+
 </div>
 </div>
-<!-- /panel-home -->
-
-
-
-<!-- ============================================================
-     タブ②：草原情報
-     編集箇所：各セクションの h2 / p / table の td / figcaption
-============================================================ -->
 <div id="panel-grassland" style="display:none">
 <div class="page-wrap">
 
   <main class="main-content">
 
-    <h1 class="page-title">Basic statistics of seminatural and other types of grasslands in Japan</h1><!-- ★ ページタイトル -->
-    <div class="page-meta">
-      <span>March 29, 2026</span><!-- ★ 更新日 -->
-      <span>Author：Shogo Ikari (Think Nature Inc.)</span><!-- ★ 担当 -->
-      <span>CC-BY 4.0</span><!-- ★ 担当 -->
-    </div>
+    <h1 class="page-title">日本の半自然草原およびその他の草原に関する基本統計</h1><div class="page-meta">
+      <span>2026年3月29日</span><span>著者：五十里 翔吾（株式会社シンク・ネイチャー）</span><span>CC-BY 4.0</span></div>
 
 
-    <h2 id="decrate">Grasslands in Japan</h2>
+    <h2 id="decrate">日本の草原</h2>
 
 <p>
-Grasslands are vegetation communities that are established in environments where forest succession is suppressed by a combination of macro- and micro-scale environmental conditions including climate, soils, and topography, as well as disturbance regimes such as fire, wind, wildlife, and waterlogging, and ongoing human management. Although grasslands occupy only a limited area in Japan, they support a diverse assemblage of species, including glacial relicts persisting since the Last Glacial Period, and constitute ecosystems of exceptionally high biodiversity.
+  草原とは、気候、土壌、地形などのマクロ・ミクロな環境条件をはじめ、火災、風、野生動物、冠水などの撹乱体制、視的・継続的な人間の管理が組み合わさることで、森林への遷移が抑制された環境に成立する植生群落です。日本において草原が占める面積は限られていますが、最終氷期から生き残っている氷河遺存種をはじめとする多様な種群を支えており、極めて高い生物多様性を持つ生態系を構成しています。
 </p>
 <p>
-The natural factors contributing to the establishment and persistence of grasslands in Japan include severe climatic conditions above the timberline, wind exposure on mountain ridges and coastal areas, periodic waterlogging, rocky substrates such as limestone and serpentine that inhibit tree establishment, volcanic soils, and herbivory by wild animals. It should be noted, however, that wild ungulates, primarily sika deer, have increased markedly as a consequence of human-driven ecosystem modification, and now contribute to the formation of degraded grasslands dominated by unpalatable plant species. Anthropogenic factors include traditional grassland management practices such as prescribed burning, mowing, and grazing, as well as unintentional human influences associated with clear-cutting, agricultural abandonment, and post-mining succession.
+  日本における草原の成立と維持に寄与する自然的要因としては、森林限界以上の厳しい気候条件、山の稜線や沿岸部における風衝、周期的な冠水、樹木の定着を阻害する石灰岩や蛇紋岩などの岩石基盤、火山性土壌、野生動物による食害などが挙げられます(ただし、ニホンジカを中心とする野生の有蹄類は、人間による生態系改変の結果として著しく増加しており、現在は不嗜好性（動物が好まない）植物種が優占する劣化した草原の形成につながっている点に注意が必要です)。人為的要因としては、火入れ、採草、放牧などの伝統的な草原管理手法のほか、皆伐、耕作放棄、採掘跡地の遷移といった意図しない人間活動の影響が挙げられます。
 </p>
 <p>
-Grassland persistence is maintained by one or more of these factors acting in combination. Among grassland types, seminatural grasslands refer specifically to those maintained over extended periods in close association with resource use of local people and are often differentiated from secondary grasslands, which can be established temporarily after original vegetation are disturbed by anthropogenic activities. Seminatural grasslands occur in relatively productive environments below the timberline and outside wind-exposed zones. Such grasslands range from those established on substrates inherently unfavorable to forest formation such as limestone outcrops and pyroclastic soils in the vicinity of volcanoes, to those whose persistence is largely independent of natural environmental conditions and instead reflects a long history of anthropogenic influences. In recent decades, seminatural grasslands in Japan have declined dramatically, driving the rarity of numerous associated species.
+  草原の存続は、これらの要因の1つまたは複数が組み合わさることで維持されています。草原のタイプの中でも「半自然草原」とは、特に地域住民の資源利用と密接に結びついて長期間維持されてきた草原を指し、人為的活動によって元の植生が撹乱された後に一時的に成立する「二次的草原」とは区別されることが多いです。半自然草原は、森林限界以下や風衝帯の外側にある、比較的生産性の高い環境に成立します。これらの草原は、火山の周辺にある火山砕屑物土壌や石灰岩の露頭など、本来は森林形成に不利な基盤上に成立しているものから、自然の環境条件にはほとんど依存せず、むしろ人間活動の長い歴史を反映して維持されてきたものまで多岐にわたります。ここ数十年の間に、日本における半自然草原は劇的に減少しており、それに伴う多くの草原性種の希少化を引き起こしています。
 </p>
+<p>
+  こうした詳細が記載された文献としては、Ushimaru et al. (2020) などがあります。
+</p>
+
     <figure>
-      <div class="img-wrap"><img src="images/f0.png" alt="Figure 1"></div>
-      <figcaption><b>Figure 1</b> Distribution of century-old or older seminatural grasslands in western Honshu and Kyushu region. Old grasslands overlap with area of limestone rock and pyroclastic soil.</figcaption>
+      <div class="img-wrap"><img src="images/f0_jap.png" alt="Figure 1"></div>
+      <figcaption><b>図1</b> 本州西部および九州地方における、100年以上の歴史的継続性を持つ半自然草原の分布。古い草原は、石灰岩や火山砕屑物土壌の地域と重なっています。</figcaption>
     </figure>
 
 
-    <h2 id="overview">Distribution of old seminatural grasslands</h2>
+    <h2 id="overview">100年以上続く半自然草原の分布</h2>
     <p>
-Ikari et al. (2026) mapped distribution of seminatural grasslands which are under anthropogenic management for more than 100 years (Figure 2). Century-old seminatural grasslands mapped in this project refer specifically to non-flooded vegetation dominated by herbaceous species that have been prevented from succeeding to forest through long-term anthropogenic management. The study found that the remaining such old seminatural grasslands are less than 60,000 ha in total.
+      Ikari et al. (2026) は、100年以上にわたって人為的な管理下にある半自然草原の分布を地図化しました（図2）。このプロジェクトで地図化された「100年以上の歴史を持つ半自然草原」とは、具体的には、長期にわたる人為的管理によって森林への遷移が阻止されてきた、冠水しない草本植物優占の植生を指します。本研究により、このような100年超の半自然草原の残存面積は、合計で60,000ヘクタール未満であることが判明しました。
     </p>
 
-    <!-- ★ 図：.img-wrap の中身を <img src="..." alt="..."> に差し替え、figcaption を編集 -->
     <figure>
-      <div class="img-wrap"><img src="images/f1.png" alt="Figure 1"></div>
-      <figcaption><b>Figure 2</b> Workflow of century-old seminatural grassland mapping and current distribution of old seminatural grasslands (grasslands larger than 10 ha are presented as circles).</figcaption>
+      <div class="img-wrap"><img src="images/f1_jap.png" alt="Figure 1"></div>
+      <figcaption><b>図2</b> 100年の歴史を持つ半自然草原の地図化ワークフローと、現在の古い半自然草原の分布（10ヘクタール以上の草原を円で示しています）。</figcaption>
     </figure>
 
-    <h2 id="decrate">Decrease rate of century-old grasslands</h2>
+    <h2 id="decrate_rate">100年の歴史を持つ草原の減少率</h2>
     <p>
-Using the grassland visualization method described in Ikari et al. (2026), the temporal changes in old seminatural grassland area were quantified at each time point (Figure 3; Table 1). The most rapid loss occurred between 1900 and 1976, during which more than 90% of the total area was lost. Over the past 50 years, the area of old seminatural grasslands has approximately halved every 20 years, with a recent annual decline rate of approximately 2.5%. Such a decrease rate are generally comparable to the numbers reported in Inoue et al. (2021), who described the decrease rate of seminatural grassland in Sugadaira highland, Nagano Prefecture, Japna.
+      Ikari et al. (2026) に記載された草原可視化手法を用いて、古い半自然草原の面積の経時的変化を各時点で定量化しました（図3、表1）。最も急速な消失は1900年から1976年の間に起こり、この期間に全面積の90%以上が失われました。過去50年間においては、古い半自然草原の面積は約20年ごとに半減しており、近年の年間減少率は約2.5%となっています。この減少率は、長野県菅平高原における半自然草原の減少率を報告した井上ら（2021）の数値とおおむね一致しています。
 
-Figure 3 shows the temporal changes in grassland area. In addition to old seminatural grasslands, the areas of natural grasslands, secondary grasslands (including those of short continuity), and artificial grasslands are also presented. Here, grasslands are defined as vegetation with a canopy height of 5 m or less. The trajectory of artificial grassland area was calculated by correcting values based on the Vegetation Survey Maps of Japan (1:25,000 and 1:50,000) published by the Ministry of the Environment and the statistics on public pastures and grazing conditions (in Japanese: <a href="https://www.maff.go.jp/j/chikusan/sinko/lin/l_siryo/koukyou_bokujyou.html" target="_blank">公共牧場・放牧をめぐる情勢</a>) published by the Ministry of Agriculture, Forestry and Fisheries.
-
+      図3は、草原面積の経時的変化を示しています。古い半自然草原に加えて、自然草原、二次的草原（継続期間の短いものを含む）、および人工草原の面積も示しています。ここでの草原は、林冠の高さが5メートル以下の植生と定義されています。人工草原の面積の推移は、環境省が発行した日本植生図（1:25,000および1:50,000）と、農林水産省が公表した公共牧場および放牧の現状に関する統計（「<a href="https://www.maff.go.jp/j/chikusan/sinko/lin/l_siryo/koukyou_bokujyou.html" target="_blank">公共牧場・放牧をめぐる情勢</a>」）に基づいて数値を補正し、算出されました。
     </p>
 <div class="table-wrap">
-  <p class="table-caption"><b>Table 1</b> Change in total area of seminatural grasslands with hundred-year or longer historical continuity.</p>
+  <p class="table-caption"><b>表1</b> 100年以上の歴史的継続性を持つ半自然草原の総面積の変化</p>
   <table>
     <thead>
-      <tr><th>Year</th><th>Area (×10,000ha)</th></tr>
+      <tr><th>年</th><th>面積（万ha）</th></tr>
     </thead>
     <tbody>
       <tr><td>1850</td><td>407.2</td></tr>
@@ -355,93 +325,90 @@ Figure 3 shows the temporal changes in grassland area. In addition to old semina
 </div>
 
     <figure>
-      <div class="img-wrap"><img src="images/f2.png" alt="Figure 1"></div>
-      <figcaption><b>Figure 3</b> Temporal change in grassland area in Japan.</figcaption>
+      <div class="img-wrap"><img src="images/f2_jap.png" alt="Figure 1"></div>
+      <figcaption><b>図3</b> 日本における草原面積の経時的変化。</figcaption>
     </figure>
 
 
-    <h2 id="lost">Land cover types replacing lost old seminatural grasslands</h2>
+    <h2 id="lost">消失した古い半自然草原に置き換わった土地被覆タイプ</h2>
     <p>
-    Analysis of the fates of lost grasslands revealed that the majority were lost to forestation (Table 2). However, the dominant conversion type varied across time periods. Up to the 1970s, conversion to agricultural land accounted for a notable proportion of grassland loss. Between 1976 and 1997, nearly all grassland loss was attributable to forest encroachment. In recent years, conversion to developed land has increased, while the rate of conversion to plantation forest has declined. The increase in conversion to developed land is likely to reflect a growing trend of land use change for solar panel installations and similar infrastructure.
+      消失した草原のその後の移り変わりを分析したところ、大部分が森林化によって失われたことが明らかになりました（表2）。しかし、主要な転換タイプは時代によって異なります。1970年代までは、農地への転換が草原消失の顕著な割合を占めていました。1976年から1997年の間は、草原消失のほぼすべてが森林の侵入によるものでした。近年では、開発地（造成地）への転換が増加している一方で、人工林への転換率は低下しています。開発地への転換の増加は、ソーラーパネルの設置などのインフラ整備に伴う土地利用変化の傾向が高まっていることを反映していると考えられます。
     </p>
 <div class="table-wrap">
-  <p class="table-caption"><b>Table 2.</b>
-    Fates of lost grasslands by period (unit: 10³ ha)</p>
+  <p class="table-caption"><b>表2</b> 期間別にみる消失草原のその後の移り変わり（単位：10³ ha）</p>
   <table>
     <thead>
       <tr>
-        <th rowspan="2">Conversion type</th>
+        <th rowspan="2">転換タイプ</th>
         <th colspan="2">1900–1976</th>
         <th colspan="2">1976–1997</th>
         <th colspan="2">1997–2021</th>
       </tr>
       <tr>
-        <th>Area (10³ ha)</th><th>%</th>
-        <th>Area (10³ ha)</th><th>%</th>
-        <th>Area (10³ ha)</th><th>%</th>
+        <th>面積 (10³ ha)</th><th>%</th>
+        <th>面積 (10³ ha)</th><th>%</th>
+        <th>面積 (10³ ha)</th><th>%</th>
       </tr>
-    </thead>
     <tbody>
-      <tr><td>Plantation forest</td> <td>1,731.0</td><td>38.7%</td> <td>56.9</td><td>43.1%</td> <td>9.6</td><td>36.2%</td></tr>
-      <tr><td>Secondary forest</td>  <td>1,631.9</td><td>36.5%</td> <td>61.6</td><td>46.6%</td> <td>13.1</td><td>49.3%</td></tr>
-      <tr><td>Paddy field</td>       <td>480.1</td><td>10.7%</td>  <td>1.3</td><td>1.0%</td>   <td>0.2</td><td>0.6%</td></tr>
-      <tr><td>Cropland / Pasture</td><td>432.9</td><td>9.7%</td>   <td>5.1</td><td>3.9%</td>   <td>0.1</td><td>0.2%</td></tr>
-      <tr><td>Built-up land</td>     <td>183.5</td><td>4.1%</td>   <td>5.5</td><td>4.2%</td>   <td>3.4</td><td>12.8%</td></tr>
-      <tr><td>Golf course etc.</td><td>8.4</td><td>0.2%</td><td>1.8</td><td>1.3%</td> <td>0.3</td><td>1.0%</td></tr>
+      <tr><td>人工林</td> <td>1,731.0</td><td>38.7%</td> <td>56.9</td><td>43.1%</td> <td>9.6</td><td>36.2%</td></tr>
+      <tr><td>二次林</td>  <td>1,631.9</td><td>36.5%</td> <td>61.6</td><td>46.6%</td> <td>13.1</td><td>49.3%</td></tr>
+      <tr><td>水田</td>       <td>480.1</td><td>10.7%</td>  <td>1.3</td><td>1.0%</td>   <td>0.2</td><td>0.6%</td></tr>
+      <tr><td>畑地・牧草地</td><td>432.9</td><td>9.7%</td>   <td>5.1</td><td>3.9%</td>   <td>0.1</td><td>0.2%</td></tr>
+      <tr><td>造成地・建築用地</td>     <td>183.5</td><td>4.1%</td>   <td>5.5</td><td>4.2%</td>   <td>3.4</td><td>12.8%</td></tr>
+      <tr><td>ゴルフ場など</td><td>8.4</td><td>0.2%</td><td>1.8</td><td>1.3%</td> <td>0.3</td><td>1.0%</td></tr>
     </tbody>
   </table>
 </div>
 
-    <h2 id="luse">Grassland statistics for Japan</h2>
-
-Statistical information on grasslands in Japan suffers from a lack of consistency across data sources. Table 3 summarizes multiple data sources on the distribution and extent of grasslands in Japan. Each source defines and classifies grasslands differently, which is reflected in the substantial variation in reported grassland area among sources (Figures 4 and 5). Here, temporal continuity of grasslands are not considered explicitly in sources other than Old grassland watch.
-
+    <h2 id="luse">日本の草原統計</h2>
+<p>
+    日本の草原に関する統計情報は、データソース間での一貫性が欠如しています。表3は、日本における草原の分布と面積に関する複数のデータソースをまとめたものです。各データソースによって草原の定義や分類が異なっており、それが報告される草原面積の大きなばらつきに反映されています（図4および図5）。なお、「古草原ウォッチ（本ページ）」以外のデータソースでは、草原の時間的な継続性は明示的に考慮されていません。
+</p>
 <div class="table-wrap">
-  <p class="table-caption"><b>Table 3.</b> Data sources on grassland distribution and extent in Japan.</p>
+  <p class="table-caption"><b>表3</b> 日本における草原の分布と面積に関するデータソース</p>
   <table>
     <thead>
       <tr>
-        <th>Source</th>
-        <th>Grassland types included</th>
-        <th>Distinction between seminatural and secondary</th>
-        <th>Distinction between artificial and non-artificial</th>
-        <th>Classification of natural grasslands</th>
-        <th>Spatial data</th>
+        <th>データソース</th>
+        <th>含まれる草原のタイプ</th>
+        <th>半自然と二次的の区別</th>
+        <th>人工と非人工の区別</th>
+        <th>自然草原の分類</th>
+        <th>空間データ</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td>Land area by land use category (MILT)</td><td>natural, seminatural, secondary, artificial</td><td>no</td><td>no</td><td>no</td><td>no</td></tr>
-      <tr><td>ALOS LULC v25.04</td>                   <td>natural, seminatural, secondary, artificial</td><td>no</td><td>no</td><td>no</td><td>yes</td></tr>
-      <tr><td>Vegetation map (MOE)</td>                  <td>natural, seminatural, secondary, artificial</td><td>no</td><td>yes</td><td>yes</td><td>yes</td></tr>
-      <tr><td>LUIS</td>                                <td>natural, seminatural, secondary</td><td>no</td><td>—</td><td>no</td><td>yes</td></tr>
-      <tr><td>Old Grassland Watch</td>                 <td>natural, seminatural, secondary, artificial</td><td>yes</td><td>yes</td><td>no</td><td>yes</td></tr>
-      <tr><td>Ogura (2006)</td>                        <td>natural, seminatural, secondary, artificial</td><td>no</td><td>no</td><td>no</td><td>no</td></tr>
-      <tr><td>Crop Statistics Survey (MAFF)</td>        <td>artificial</td>                     <td>—</td><td>—</td><td>no</td><td>no</td></tr>
-      <tr><td>Current Status of Public Pastures and Grazing (MAFF)</td><td>artificial</td><td>—</td><td>—</td><td>no</td><td>no</td></tr>
+      <tr><td>土地利用別面積（国土交通省）</td><td>自然, 半自然, 二次的, 人工</td><td>なし</td><td>なし</td><td>なし</td><td>なし</td></tr>
+      <tr><td>ALOS LULC v25.04</td>                    <td>自然, 半自然, 二次的, 人工</td><td>なし</td><td>なし</td><td>なし</td><td>あり</td></tr>
+      <tr><td>植生図（環境省）</td>                   <td>自然, 半自然, 二次的, 人工</td><td>なし</td><td>あり</td><td>あり</td><td>あり</td></tr>
+      <tr><td>土地利用データベース（LUIS）</td>                                 <td>自然, 半自然, 二次的</td><td>なし</td><td>—</td><td>なし</td><td>あり</td></tr>
+      <tr><td>100年超の半自然草原ウォッチ（本研究）</td>                 <td>自然, 半自然, 二次的, 人工</td><td>あり</td><td>あり</td><td>なし</td><td>あり</td></tr>
+      <tr><td>小椋 (2006)</td>                        <td>自然, 半自然, 二次的, 人工</td><td>なし</td><td>なし</td><td>なし</td><td>なし</td></tr>
+      <tr><td>作物統計調査（農林水産省）</td>        <td>人工</td>                     <td>—</td><td>—</td><td>なし</td><td>なし</td></tr>
+      <tr><td>公共牧場・放牧の現状（農林水産省）</td><td>人工</td><td>—</td><td>—</td><td>なし</td><td>なし</td></tr>
     </tbody>
     <tfoot>
-      <tr><td colspan="7">Meanings of abbreviations: MILT; Japanese Ministry of Land, Infrastructure, Transport and Tourism, MOE; Japanese Ministry of Environment and MAFF; Japanese Ministry of Agriculture, Forestry and Fisheries, LUIS; Land Use Information System.</td></tr>
+<!--      <tr><td colspan="7">略称の意味：MILT；国土交通省、MOE；環境省、MAFF；農林水産省、LUIS；土地利用情報システム。</td></tr> -->
     </tfoot>
   </table>
 </div>
 
     <figure>
-      <div class="img-wrap"><img src="images/f3.png" alt="Figure 1"></div>
-      <figcaption><b>Figure 4</b> Temporal changes in grassland area visualized from different sources. In the compilation of grassland statistics presented here, rocky areas, wetlands, and alpine vegetation are not distinguished from grasslands. Although ALOS LULC and LUIS explicitly distinguish between wetlands and grasslands, the criteria for this distinction are not documented, and considerable confusion between the two categories makes it impractical to treat them separately in practice. For the MOE vegetation map, two versions are used: the 1:50,000 map produced around 1980 and the 1:25,000 map produced from 1998 onwards. The identification of grasslands from vegetation classification follows Tomitaka et al. (2025), in which vegetation with a canopy height of 5 m or less is treated as grassland, except for subalpine dwarf shrub vegetation. Note that the change in grassland area reported in Ogura (2006) is comparable to that of century-old seminatural grasslands in Old grassland watch rather than total grassland area mapped in vegetation maps or Old grassland watch.</figcaption>
+      <div class="img-wrap"><img src="images/f3_jap.png" alt="Figure 1"></div>
+      <figcaption><b>図4</b> 異なるデータソースから可視化した草原面積の経時的変化。ここでまとめた草原統計の編集において、岩石地、湿地、および高山植生は草原と区別していません。ALOS LULCとLUISは湿地と草原を明示的に区別していますが、この区別の基準が文書化されておらず、両カテゴリー間でかなりの混同が見られるため、実務上これらを分けて扱うことは非現実的です。環境省の植生図については、1980年頃に作成された5万分の1植生図と、1998年以降に作成された2万5千分の1植生図の2つのバージョンを使用しています。植生分類からの草原の特定は冨髙ら（2025）に従っており、亜高山帯の低木植生を除き、林冠高が5メートル以下の植生を草原として扱っています。なお、小椋（2006）で報告されている草原面積の変化は、植生図（環境省）や100年超の半自然草原ウォッチ（本研究）でマッピングされた「総草原面積」よりも、「100年以上の歴史を持つ半自然草原」の数値に近い点に留意してください。</figcaption>
     </figure>
 
 
     <figure>
-      <div class="img-wrap"><img src="images/f4.png" alt="Figure 1"></div>
-      <figcaption><b>Figure 5</b> Temporal changes in artificial grasslands. Artificial grasslands include improved pastures (almost entirely comprising introduced forage species), golf courses, and airfields. The statistics provided by MAFF cover pastureland only.</figcaption>
+      <div class="img-wrap"><img src="images/f4_jap.png" alt="Figure 1"></div>
+      <figcaption><b>図5</b> 人工草原の経時的変化。人工草原には、改良牧草地（ほぼ完全に外来の牧草種で構成される）、ゴルフ場、飛行場が含まれます。農林水産省が提供する統計は牧草地のみを対象としています。</figcaption>
     </figure>
 
 <p>
-Why do the reported grassland statistics vary so markedly? Several reasons can be identified. First, a substantial difference arises depending on whether the statistics were compiled in a bottom-up manner by integrating information from farmers and land managers, or derived from spatially explicit map data. The former approach tends to capture a smaller area than actually exists on the ground. Second, the definition of grassland itself is problematic. Many vegetation types occupy ambiguous positions at the boundary with grassland including post-logging communities, shrubby wetland vegetation, and cliff-face vegetation. The way such ecosystems are classified can substantially alter the final estimates. This boundary problem is particularly pronounced in natural vegetation. Third, the minimum patch size considered (or detectable) also matters. As shown in Figure 3, even within the same data source, aggregation at 100 m resolution versus 10 m resolution yields differences of more than 8% (cf. ALOS LULC v25.04 (10 m) and ALOS LULC v25.04 (100 m)), reflecting the highly fragmented nature of grassland habitats in Japan. It is therefore important to recognize that assessments of grassland distribution and habitat extent are subject to considerable uncertainty. For broad-scale assessments, it is essential to clearly define the criteria used for compilation. For local-scale assessments — such as land use decision-making at the site level — integrating multiple data sources can be an effective approach to mapping important habitats; for example, combining a vegetation map with coarse temporal resolution but fine habitat classification with a land use map derived from satellite imagery with finer temporal resolution. 
+  報告される草原統計がこれほど顕著に異なるのはなぜでしょうか。いくつかの理由が特定できます。第一に、農家や土地管理者からの情報を集約してボトムアップ形式で構築された統計であるか、あるいは空間的に明示された地図データから派生したものであるかによって、大きな違いが生じます。前者のアプローチは、実際に地上に存在する面積よりも小さな面積を捉える傾向があります。第二に、草原の定義自体が問題となります。伐採跡地群落、低木性の湿地植生、崖地植生など、多くの植生タイプが草原との境界にある曖昧な位置を占めています。これらの生態系をどのように分類するかによって、最終的な推定値が大幅に変わる可能性があります。この境界問題は、特に自然植生において顕著です。第三に、考慮される（または検出可能な）最小パッチサイズも影響します。図3に示されているように、同じデータソース内であっても、100メートル解像度で集計するか10メートル解像度で集計するかによって8%以上の差が生じており（ALOS LULC v25.04 (10 m) と ALOS LULC v25.04 (100 m) を参照）、これは日本における草原生息地が極めて断片化している性質を反映しています。したがって、草原の分布や生息地面積の評価にはかなりの不確実性が伴うことを認識することが重要です。広域的な評価においては、集計に使用する基準を明確に定義することが不可欠です。また、サイトレベルでの土地利用の意思決定などの局所的な評価においては、複数のデータソースを統合することが重要生息地のマッピングに有効なアプローチとなります。例えば、時間解像度は粗いものの詳細な植生分類を持つ植生図と、時間解像度は細かいものの分類が粗い衛星画像由来の土地利用図を組み合わせる方法などが考えられます。
 </p>
-<h2>References</h2>
+<h2>参考文献</h2>
 <ul class="ref-list">
-  <!-- ★ <li> を複製して文献を追加 -->
   <li>ALOS LULC v25.04 (Accessed 2026/03/29) https://www.eorc.jaxa.jp/ALOS/en/index_e.htm</li>
   <li>Arizono S.(1995). 1.2 Land Use in Japan circa 1850 (pp.4-5), 1.3 Land Use in Japan circa 1900 (pp.6-7), Nishikawa O., Himiyama Y. et al. eds., Atlas - Environmental Change in Modern Japan (in Japanese), Asakura Publishing Co., Ltd.</li>
   <li>Himiyama Y.(1995). 1.4 Land Use in Japan circa 1950 (pp.8-9), 1.5 Land Use in Japan circa 1985 (pp.10-11), 1.6 Land Use in Japan circa 1900-1985 (pp.12-13), Nishikawa O., Himiyama Y. et al. eds., Atlas - Environmental Change in Modern Japan (in Japanese), Asakura Publishing Co., Ltd. </li>
@@ -453,49 +420,42 @@ Why do the reported grassland statistics vary so markedly? Several reasons can b
   <li>Ogura, J. (2006). The transition of grassland area in Japan <em>Journal of Kyoto Seika University</em>, 30, 160–172. </li>
   <li>Inoue, T., Okamoto, T., & Kenta, T. (2021) Qualitative and quantitative analyses of changes in the grassland area in the Sugadaira Highlands, central Japan: A case study of grassland decline in a national park <em>Japanese Journal of Conservation Ecology</em> 26 : 219-228 https://doi.org/10.18960/hozen.2041</li>
   <li>Tomitaka, M., Ikari, S., Seki, T., Inoue, T., Kawai, J., Yamamoto, Y., Miyamoto, N., Yoshizawa, A., Kaneko, F., Kubota, Y., and Kenta, T. (2025) Extinction risk status by habitat type: Insights from Japan’s Red Lists (1997–2025) and changes in habitat area <em>Preprint</em> https://doi.org/10.51094/jxiv.835</li>
+  <li>Ushimaru, A., Uchida, K., Ikegami, M., & Suka, T. (2020). Grasslands and shrublands of Japan. Encyclopedia of the world's biomes, 785-799.</li>
 </ul>
 
 
 
-<h3 id="decrate">Suggested citation</h3>
+<h3 id="decrate_citation">本ページを引用</h3>
 
 <p>Ikari, S. (2026). Basic statistics of seminatural and other types of grasslands in Japan. Japanese Old Grassland Watch by Think Nature Inc. https://doi.org/10.5281/zenodo.19758435</p>
 
   </main>
 
-  <!-- ★ サイドバー（草原情報） -->
   <aside class="sidebar">
     <div class="sidebar-box">
       <div class="sb-title">目次</div>
       <div class="sb-body">
-        <!-- ★ セクションを追加したらここにも <li> を追加 -->
         <ol class="toc-list" id="js-toc">
-          <li><a href="#overview">Distribution of old seminatural grasslands</a></li>
-          <li><a href="#decrate">Decrease rate</a></li>
-          <li><a href="#lost">Land cover types replacing lost old seminatural grasslands</a></li>
-          <li><a href="#luse">Grassland statistics for Japan</a></li>
+          <li><a href="#overview">100年以上続く半自然草原の分布</a></li>
+          <li><a href="#decrate_rate">100年の歴史を持つ草原の減少率</a></li>
+          <li><a href="#lost">消失した古い半自然草原に置き換わった土地被覆タイプ</a></li>
+          <li><a href="#luse">日本の草原統計</a></li>
         </ol>
       </div>
     </div>
     <div class="sidebar-box">
-      <div class="sb-title">Links</div><!-- ★ ボックスタイトル -->
-      <div class="sb-body">
-        <!-- ★ リンクリスト：<li> を複製して追加・削除 -->
+      <div class="sb-title">リンク</div><div class="sb-body">
         <ul>
-          <li><a href="https://grassland.think-nature.jp/sources/" target="_blank">Old grassland web viewer</a></li>
-          <li><a href="https://think-nature.jp/en/" target="_blank">Think Nature Inc.</a></li>
-          <li><a href="https://msc.tsukuba.ac.jp/sougen/" target="_blank">About old grasslands [ja]</a></li>
+          <li><a href="https://grassland.think-nature.jp/sources/" target="_blank">半自然草原ウェブビューアー</a></li>
+          <li><a href="https://think-nature.jp/en/" target="_blank">株式会社シンク・ネイチャー</a></li>
+          <li><a href="https://msc.tsukuba.ac.jp/sougen/" target="_blank">歴史が古い草原</a></li>
         </ul>
       </div>
     </div>
   </aside>
 
 </div>
-</div><!-- /panel-grassland -->
-
-
-<!-- ★ フッター -->
-<footer class="site-footer">
+</div><footer class="site-footer">
   Think Nature Inc. &copy; 2026 &nbsp;|&nbsp; All rights reserved.
 </footer>
 
@@ -503,7 +463,7 @@ Why do the reported grassland statistics vary so markedly? Several reasons can b
 
   // ── 目次スクロール連動 ──
   const tocLinks = document.querySelectorAll('#js-toc a');
-  const sections = ['overview','decrate','lost','luse','stats']
+  const sections = ['overview','decrate_rate','lost','luse']
     .map(id => document.getElementById(id)).filter(Boolean);
 
   function updateToc() {
@@ -527,10 +487,10 @@ Why do the reported grassland statistics vary so markedly? Several reasons can b
     });
 
     const bc = document.getElementById('js-breadcrumb');
-    const labels = { home: 'Home', grassland: 'Resources', gis: 'Web Viewer' }; // ★ タブ名を追加
+    const labels = { home: 'ホーム', grassland: '日本の草原について', gis: 'ウェブビューアー' }; // ★ タブ名を追加
     bc.innerHTML = name === 'home'
-      ? '<a href="#" onclick="switchTab(\'home\');return false;">Home</a>'
-      : '<a href="#" onclick="switchTab(\'home\');return false;">Home</a> &rsaquo; ' + labels[name];
+      ? '<a href="#" onclick="switchTab(\'home\');return false;">ホーム</a>'
+      : '<a href="#" onclick="switchTab(\'home\');return false;">ホーム</a> &rsaquo; ' + labels[name];
   }
 </script>
 
